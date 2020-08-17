@@ -1,0 +1,15 @@
+{
+    "width": 800,
+    "height": 800,
+    "components": [
+    {
+        "type": "cell",
+        "pos": [200, 200],
+        "voltage": 5
+    },
+    {
+        "type": "bulb",
+        "pos": [500, 200],
+        "resistance": 1
+    }]
+}
