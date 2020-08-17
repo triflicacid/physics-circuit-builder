@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Circuit</title>
+
+        <script src="scripts/p5.js" charset="utf-8"></script> <!-- Key P% library -->
+        <script src="scripts/utils.js" charset="utf-8"></script> <!-- Utility functions and stuff -->
+
+        <script src="scripts/circuit.js" charset="utf-8"></script> <!-- Main circuit class -->
+
+        <script src="scripts/wire.js" charset="utf-8"></script> <!-- Connection -->
+        <script src="scripts/components/template.js" charset="utf-8"></script> <!-- Template for all components -->
+        <script src="scripts/components/junction.js" charset="utf-8"></script> <!-- Junction (split in wire) -->
+        <script src="scripts/components/power.js" charset="utf-8"></script> <!-- Power components -->
+        <script src="scripts/components/bulb.js" charset="utf-8"></script> <!-- Bulb component -->
+        <script src="scripts/components/resistor.js" charset="utf-8"></script> <!-- Resistor components -->
+        <script src="scripts/components/ammeter.js" charset="utf-8"></script> <!-- Ammeter component -->
+        <script src="scripts/components/fuse.js" charset="utf-8"></script> <!-- Fuse component -->
+        <script src="scripts/components/switch.js" charset="utf-8"></script> <!-- Switch (toggle) component -->
+        <script src="scripts/components/diode.js" charset="utf-8"></script> <!-- Diode component -->
+        <script src="scripts/components/buzzer.js" charset="utf-8"></script> <!-- Buzzer component -->
+
+        <script src="sounds/index.js" charset="utf-8"></script> <!-- Sound interface -->
+        <script src="scripts/control.js" charset="utf-8"></script> <!-- Managmentt -->
+    </head>
+    <body>
+        <b id='lastUpdate'></b>
+        <table>
+            <tr>
+                <td>
+                    <div id="container"></div>
+                </td>
+                <td>
+                    <table border='1'>
+                        <thead>
+                            <tr>
+                                <th colspan='2'>Circuit Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Voltage</th>
+                                <td id='circuit-voltage'></td>
+                            </tr>
+                            <tr>
+                                <th>Resistance</th>
+                                <td id='circuit-resistance'></td>
+                            </tr>
+                            <tr>
+                                <th>Current</th>
+                                <td id='circuit-current'></td>
+                            </tr>
+                            <tr>
+                                <th>Power</th>
+                                <td id='circuit-power'></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id='target'></div>
+        <script src="_main.js" charset="utf-8"></script>
+    </body>
+</html>
