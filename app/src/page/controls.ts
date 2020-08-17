@@ -472,7 +472,7 @@ export class Controls {
       if (c.isLuminous()) other.push(["Luminoscity", utils.roundTo(c.luminoscity(), 2) + "lm @ " + c.lumensPerWatt + "lm/w"]);
 
       if (c instanceof Components.Bulb) {
-        info.cName.innerText = c.wattage() + "-Watt " + c.constructor.name;
+        info.cName.innerText = utils.roundTo(c.maxVoltage, 1) + "V " + c.constructor.name;
         other.push(
           ["Brightness", utils.roundTo(c.brightness() * 100, 1) + "%"],
           ["Old Symbol", utils.getHtmlBoolString(c.oldSymbol)]

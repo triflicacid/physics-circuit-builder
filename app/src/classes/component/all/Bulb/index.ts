@@ -5,17 +5,15 @@ import { IAdditionalComponentData, IComponentData } from 'models/saveData';
 import IBulbData from './interface';
 import p5 from 'p5';
 import { NBoolean, MouseButton } from 'models/enum';
-import { SaveError } from 'classes/errors';
 
 /**
  * Bulb: light
  * @extends Component
  *
  * @property oldSymbol        Should we render the old bulb symbol?
- * @property _wattage         Power at which bulb is 100% brightness
+ * @property voltage          Voltage at which bulb is 100% brightness
  *
  * @method brightness()         Get brightness of bulb (0..1)
- * @method wattage(?n)          Get or Set wattage of bulb
  * @method render()             Render the cell onto the global p5 sketch
  * @method getColour()          Get colour (fill) of bulb
  * @method getInputCoords()     Where should we connect the input to?
@@ -26,7 +24,7 @@ import { SaveError } from 'classes/errors';
 export class Bulb extends Component {
   public oldSymbol: boolean = false; // Old / New rendering?
 
-  protected _wattage: number = 10; // Maximum power this can handle
+  protected _maxVoltage: number = 10; // Maximum power this can handle
 
   public constructor(parentCircuit: Circuit) {
     super(parentCircuit);
@@ -36,25 +34,16 @@ export class Bulb extends Component {
     this._maxCurrent = 5;
   }
 
+  public get maxVoltage(): number { return this._maxVoltage; }
+  public set maxVoltage(v: number) { if (isFinite(v) && !isNaN(v)) this._maxVoltage = Math.abs(v); }
+
   /**
    * Get brightness of bulb
    * @return {Number} Brightness as fraction [0..1]
    */
   public brightness(): number {
     // return this.isOn() ? Math.abs(this.current) / this.maxCurrent : 0;
-    return this.isOn() ? Math.abs(this.power()) / this.wattage() : 0;
-  }
-
-  /**
-   * Get or set wattage of the bulb (optimum power)
-   * @param  {Number} watts   If present: set wattage of bulb. Else, get.
-   * @return {Number} Wattage
-   */
-  public wattage(watts?: number): number {
-    if (typeof watts === "number") {
-      this._wattage = utils.clamp(watts, 0, 1e6);
-    }
-    return this._wattage;
+    return this.isOn() ? Math.abs(this.power()) / this.maxVoltage : 0;
   }
 
   /**
@@ -62,8 +51,9 @@ export class Bulb extends Component {
    */
   public eval(): void {
     super.eval((circuitBroken: boolean): void => {
-      if (this.control.isRunning && !circuitBroken && Math.abs(this.power()) > this.wattage()) {
-        super.blow(`Component ${this.toString()} blew as its power input (${this.power()} W) exceeded its limit of ±${this.wattage()}W`);
+      const voltage: number = this.voltage;
+      if (this.control.isRunning && !circuitBroken && Math.abs(this.voltage) > this.maxVoltage) {
+        super.blow(`Component ${this.toString()} blew as the voltage over it (${this.voltage} W) exceeded its limit of ±${this.maxVoltage}V`);
       }
     });
   }
@@ -174,7 +164,7 @@ export class Bulb extends Component {
   public getData(customData?: IAdditionalComponentData): IComponentData {
     const data: IAdditionalComponentData = {
       oldSymbol: this.oldSymbol ? NBoolean.True : NBoolean.False,
-      wattage: this._wattage,
+      voltage: this._maxVoltage,
       ...customData
     };
     return super.getData(data);
@@ -188,17 +178,9 @@ export class Bulb extends Component {
   public apply(data: IBulbData): Bulb {
     super.apply(data);
 
-    if (typeof data.wattage === 'number' && !isNaN(data.wattage)) {
-      this._wattage = data.wattage;
-    } else {
-      // throw new SaveError('@ Bulb.apply', 'wattage: number');
-    }
+    if (typeof data.voltage === 'number' && !isNaN(data.voltage)) this.maxVoltage = data.voltage;
+    if (data.oldSymbol === NBoolean.True || data.oldSymbol === NBoolean.False) this.oldSymbol = data.oldSymbol === NBoolean.True;
 
-    if (data.oldSymbol === NBoolean.True || data.oldSymbol === NBoolean.False) {
-      this.oldSymbol = data.oldSymbol === NBoolean.True;
-    } else {
-      // throw new SaveError('@ Bulb.apply', 'oldSymbol: NBoolean');
-    }
     return this;
   }
 }
