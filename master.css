@@ -1,0 +1,21 @@
+body {
+    background: #EDEDED;
+    font-family: Arial;
+}
+
+a {
+    color: blue;
+}
+
+a:hover {
+    color: red;
+}
+
+table [border='1'] {
+    border-collapse: collapse;
+}
+
+.indent {
+    padding-left: 2vw;
+    border-left: 1px solid black;
+}
