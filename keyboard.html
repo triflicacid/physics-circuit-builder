@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Circuit | Keyboard</title>
+    <link rel="stylesheet" href="master.css" />
+    <link rel="shortcut icon" href="favicon.ico" />
+</head>
+
+<body>
+    <center>
+        <h1>Keyboard / Mouse Control</h1>
+        <a href='./'>Back to Home Page</a><br>
+    </center>
+
+    <h2>General</h2>
+    <h4>Keyboard</h4>
+    <ul>
+        <li><b>a</b> - Toggles the "Analyse" tab.</li>
+        <li><b>c</b> - Toggles the "Components" tab.</li>
+        <li><b>Ctrl</b> - Toggles the "Control" tab.</li>
+        <li><b>Delete / Backspace</b> - Prompt to delete the current file. If no file is open, prompts to close file.
+            Behaviour varies when cursor is over a component / wire.</li>
+        <li><b>e</b> - Toggles the "Extra Info" slider.</li>
+        <li><b>f</b> - Toggles the "File" tab.</li>
+        <li><b>r</b> - Toggles running the circuit (temporary).</li>
+        <li><b>s</b> - Prompt to save the file.</li>
+        <li><b>w</b> - Toggles the "Wire Creation" slider.</li>
+    </ul>
+    <h4>Mouse</h4>
+    <ul>
+        <li><b>Left-Click</b> - <i>If creating a wire:</i> Will cancel the wire insertion (the res wire will
+            disappear).<br>
+            <i>If inserting component:</i> Attempt to place the component. Only successfull if cursor is over the
+            circuit board.</li>
+        <li><b>Right-Click</b> - <i>If creating a wire:</i> Create a "node" or "handle" on the red wire. Insertion will
+            continue.</li>
+    </ul>
+    <hr />
+
+    <h2>If over a component</h2>
+    <h4>Keyboard</h4>
+    <ul>
+        <li><b>Delete / Backspace</b> - Prompt to delete the component.</li>
+    </ul>
+    <h4>Mouse</h4>
+    <ul>
+        <li><b>Left-Click</b> - <i>If "Create Wire" is enabled:</i> Begin creating a wire (visually red). The red wire
+            will follow your cursor. If left-click on another component, will attempt to connect the two.</li>
+        <li><b>Right-Click</b> - Will trigger the "toggle" command. See <a href='components.php'>About Components</a>
+            for more information on a specific component.</li>
+        <li><b>Scroll</b> - Will trigger the "on scroll" command. See <a href='components.php'>About Components</a> for
+            more information on a specific component.</li>
+    </ul>
+    <hr />
+
+    <h2>If over a wire</h2>
+    <h4>Keyboard</h4>
+    <ul>
+        <li><b>Delete / Backspace</b> - <i>If over a node/handle:</i> Prompt to delete the node/handle. <i>Else</i>,
+            prompt to delete the wire.</li>
+    </ul>
+    <h4>Mouse</h4>
+    <ul>
+        <li><b>Left-Click</b> - <i>If over node (orange circle):</i> Will drag the node while the left-mouse button is
+            held. If released, the node will become static. This allows re-shaping of the wire.</li>
+        <li><b>Right-Click</b> - <i>If inserting a component:</i> Split wire and place component in the middle.<br>
+            <i>Else</i>, Will create a node/handle at the given position.</li>
+        <!-- <li><b>Scroll</b> - Will trigger the "on scroll" command. See <a href='components.php'>About Components</a> for more information on a specific component.</li> -->
+    </ul>
+</body>
+
+</html>

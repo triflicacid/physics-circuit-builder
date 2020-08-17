@@ -1,0 +1,211 @@
+{
+    "releases": [{
+            "started": "30/06/2020",
+            "name": "Series",
+            "releases": [
+                [
+                    ["unknown", "Created basic circuit with cell and bulb"],
+                    ["unknown", "Added junction component (no use yet, renamed to 'connector')"],
+                    ["unknown", "Added resistor component"],
+                    ["unknown", "Draggable components, wires and create multi-node connections"],
+                    ["unknown", "Added ammeter component"]
+                ],
+                [
+                    ["unknown", "Circuit can now be broken. 'Blow' animation for bulb"],
+                    ["unknown", "Added variable resistor component"],
+                    ["unknown", "Added labels to components (e.g. brightness% on bulb)"],
+                    ["unknown", "Added component info table (hover over component to see)"],
+                    ["unknown", "Added fuse component"],
+                    ["unknown", "Added switch component"],
+                    ["unknown", "Option to view label info: remove hover-over info on every component."]
+                ],
+                [
+                    ["12:17", "Added battery component."],
+                    ["17:54", "Added ability to flip current of a circuit (right-click cell/battery). Correspondingly, added diode and LED components, which can also be flipped."],
+                    ["19:28", "Added AC power supply"]
+                ],
+                [
+                    ["11:36", "Added DC power supply (variable voltage)"],
+                    ["12:58", "Ability to calculate power. Implemented 'conductive heating' formula, which may be expanded in future versions"],
+                    ["19:06", "Added buzzer - buzzes at different volumes depending on current / maxCurrent. -EDIT (21:44) Buzzer now uses dynamic oscillator to produce more constant sound"]
+                ],
+                [
+                    ["09:45", "Small tweaks to buzzer (frequency is variable, clamped frequency...)"],
+                    ["10:02", "LED bug fixes"]
+                ]
+            ]
+        },
+        {
+            "started": "06/07/2020",
+            "name": "Parallel",
+            "releases": [
+                [
+                    ["17:09", "First release of parallel circuits"],
+                    ["17:40", "Everything now has a very small amount of resistance"],
+                    ["19:46", "Added voltmeter"],
+                    ["20:43", "Added wattmeter (measures power of circuit)"],
+                    ["21:18", "Added 'about components' page"],
+                    ["21:37", "Tweaked appearances of switch, junction, battery and general colours"]
+                ],
+                [
+                    ["11:49", "Diodes no longer act like switches. Instead they set their resistance incredibly high, more like real life diodes"],
+                    ["12:42", "Scrolling over certain components will adjust a property (e.g. variable resistor -> resistance). Other bug fixes."],
+                    ["14:22", "Other components can now be blown (e.g. diode). Scrolling over LED will adjust the hue. LED varies in brightness exponentially (unlike bulb)"],
+                    ["15:08", "Renamed junction to 'connector'. Added component 'toggle connector', which is a connector which is able to toggle between whether to run circuit A or circuit B"]
+                ],
+                [
+                    ["14:14", "Scroll on ammeter to change units (e.g. mA, nA ...). Right-click on resistor to toggle between ohms or kiloOhms"]
+                ],
+                [
+                    ["15:39", "Can now connect connectors to make 0-resistance parallel pathways. Other bug fixes."]
+                ],
+                [],
+                [],
+                [],
+                [],
+                [
+                    ["09:44", "Added LogicMeter and NOT gate"]
+                ],
+                [
+                    ["15:49", "Scrapped Logic update."]
+                ],
+                [
+                    ["20:04", "New log - better representation, navigation ..."],
+                    ["21:04", "Changed ToggleConnector -> TwoWaySwitch. Altered rendering to reflect 'switch' nature."]
+                ],
+                [
+                    ["12:24", "LED arrow is rotated with component, and no longer has brightness - OFF or ON. Altered tab icons/titles."]
+                ]
+            ]
+        },
+        {
+            "started": "17/07/2020",
+            "name": "Component Update",
+            "releases": [
+                [
+                    ["21:00", "Initial release of capacitor component. See 'components' for more information."]
+                ],
+                [
+                    ["12:38", "Blown components now remember their blown state. Blown components' line colour will flicker orangy-red."],
+                    ["13:06", "Right-click on resistor components to toggle between American and British circuit symbols."],
+                    ["14:14", "Right-click on bulb components to toggle between old and new circuit symbol."],
+                    ["14:59", "Added motor component. See components page."],
+                    ["18:36", "Added luminoscity to Bulb and LED.", "Added ability for components to detect light they are recieving. Added lightmeter.", "Added new mode 'Light Mode' - view light emitted from luminous components."]
+                ],
+                [
+                    ["08:57", "Added Light-Dependant Resistor.", "Added ambient light level to circuit. Visualised by coloured strip at top of canvas."],
+                    ["10:18", "Bulbs brightness is now dependant upon its wattage."],
+                    ["14:25", "Added background heat.", "Added heater component, and Heat mode to view heat."],
+                    ["16:01", "Tweaked resistor model (mainly LDR)."],
+                    ["17:09", "Added thermometer.", "Fixed bug with heat and light detection."],
+                    ["18:28", "Added thermistor (NTC and PTC)."]
+                ]
+            ]
+        },
+        {
+            "started": "20/07/2020",
+            "name": "Basic UI",
+            "releases": [
+                [
+                    ["12:17", "Ability to load circuit from saves file."],
+                    ["21:30", "Added 'Close Circuit'"],
+                    ["21:44", "Added 'Create New' circuit"]
+                ],
+                [
+                    ["16:03", "Ability to close circuit."],
+                    ["16:36", "Ability to delete circuit."],
+                    ["21:05", "Added basic controls in 'Control' tab.", "Circuit background is now transparent. Smoothed some colours/shapes."]
+                ],
+                [
+                    ["07:46", "Ability to add components to a circuit.", "<b>Added:</b> Cell, Ammeter, Lightmeter, Thermometer, Voltmeter, Bulb, Buzzer, LED, Connector, Diode, Fuse, Switch, Resistor"],
+                    ["08:13", "Allowed interaction to circuit whilst it isn't running."],
+                    ["21:55", "Added 'Analyse' tab where component info will appear when a component is hovered over"]
+                ],
+                [
+                    ["20:45", "Options to add most components now. Tweaks with dimensions/button behavious."],
+                    ["21:49", "Added some 'configurable' options to a few components. This will be expanded upon.", "Buzzer bug fixes, involving playing when it shouldn't and muting."]
+                ],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [
+                    ["20:11", "Added more configuration options"],
+                    ["21:12", "Added option to remove components ('analyse' tab or <Delete> key)"],
+                    ["21:55", "Added option to remove wires ('analyse' tab or key)"]
+                ],
+                [
+                    ["20:00", "Added more components", "<b>Added:</b> Variable Resistor, AD & DC Power Supplies, Thermistor, Photoresistor, Heater"],
+                    ["20:50", "Bug fixes"]
+                ],
+                [
+                    ["17:38", "<b>Added:</b> Motor.", "Removed old sliders for editable components, as we now have config in Analyse."]
+                ]
+            ]
+        },
+        {
+            "started": "31/07/2020",
+            "name": "GCSE Experiments",
+            "releases": [
+                [
+                    ["19:30", "Added the MaterialContainer component. Can contain a material which alters the resistance."],
+                    ["20:14", "Option to change px:m scale in 'Environment'", "Bug fixes."]
+                ],
+                [
+                    ["11:14", "Tweaks to MaterialContainer"],
+                    ["13:58", "Hover over wires to view information", "Wires can now have a resistance and a material (only if enabled). The material, thickness and length varies the resistance.", "Bug fixes."],
+                    ["14:56", "Added more materials, and ordered them alphabetically."],
+                    ["18:34", "Added component WireContainer. Holds a wire of a material, but the resistance is amplified to be more noticeable.", "Display tweaks invlving numbers."]
+                ],
+                [
+                    ["08:58", "Press \"Delete\" or \"Backspace\" on a wire node to delete it.", "Right-click on a wire to create a new node. (added auto-positioning at 10:38)", "Performance improvments."],
+                    ["11:29", "Ability to insert component into a wire. When inserting a component, click on a wire (highlight orange) to insert. the component will then split the wire and be inserted."],
+                    ["12:12", "Added keyboard control (see new page 'Keyboard / Mouse Control')", "Added new scroll events for the containers."],
+                    ["20:48", "More keyboard control.", "Updated 'About Components' with a 'Toggle Action' and 'Scroll Action' field."]
+                ],
+                [
+                    ["17:22", "Started stage 1 of refactoring : Modules"],
+                    ["20:49", "Bug fixes and improvments."]
+                ],
+                [],
+                [
+                    ["09:04", "Finished stage 1 of refactoring : Modules", "Added capacitor to components menu", "Bug fixes"]
+                ],
+                [],
+                [],
+                [
+                    ["16:17", "Began setup of webpack"]
+                ],
+                [
+                    ["20:20", "Got to stage of basic functionality for circuit."]
+                ],
+                [
+                    ["10:12", "Added all power sources to UI", "Added new component: Battery. (rending is in progress)"],
+                    ["14:59", "Added all resistors and most measuring components"],
+                    ["19:05", "Added Buzzer and LEDs, fixing bugs with both."],
+                    ["19:46", "Added Fuse and Motor.", "Fuse's wire now glows as it gets closer to blowing, and now shows the percantage closeness to blowing."]
+                ],
+                [
+                    ["20:07", "Added Connector and TwoWaySwitch. Happy parallel-ness :)", "Fixed bugs involving parallel circuits"]
+                ],
+                [
+                    ["20:16", "Bug fix involving parallel circuits.", "Render tweaks to do with voltmeter."],
+                    ["20:57", "Added heater."],
+                    ["21:50", "Added wire container.", "'Capacitor' is no longer classed as a power source."]
+                ],
+                [
+                    ["19:22", "Added material container.", "Added toggle action to wire and material container to toggle between scroll commands (see 'about components' for more)"],
+                    ["21:45", "Added TouchSwitch and PushSwitch."]
+                ],
+                [],
+                [
+                    ["12:45", "Removed 'running' slider. Circuit is now running unless wireCreation is enabled."],
+                    ["16:30", "Small quality-of-life improvments."],
+                    ["17:12", "Added capacitor", "Lots of bug fixes."],
+                    ["17:49", "Added displayMode functionality."]
+                ]
+            ]
+        }
+    ]
+}
