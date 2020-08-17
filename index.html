@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Circuit | latest</title>
+
+        <link rel="stylesheet" href="master.css">
+
+        <script src="scripts/p5.js" charset="utf-8"></script> <!-- Key P% library -->
+        <script src="scripts/utils.js" charset="utf-8"></script> <!-- Utility functions and stuff -->
+
+        <script src="scripts/circuit.js" charset="utf-8"></script> <!-- Main circuit class -->
+
+        <script src="scripts/wire.js" charset="utf-8"></script> <!-- Connection -->
+        <script src="scripts/components/template.js" charset="utf-8"></script> <!-- Template for all components -->
+        <script src="scripts/components/connector.js" charset="utf-8"></script> <!-- Connector (split in wire) -->
+        <script src="scripts/components/power.js" charset="utf-8"></script> <!-- Power components -->
+        <script src="scripts/components/bulb.js" charset="utf-8"></script> <!-- Bulb component -->
+        <script src="scripts/components/resistor.js" charset="utf-8"></script> <!-- Resistor components -->
+        <script src="scripts/components/meter.js" charset="utf-8"></script> <!-- Ammeter component -->
+        <script src="scripts/components/fuse.js" charset="utf-8"></script> <!-- Fuse component -->
+        <script src="scripts/components/switch.js" charset="utf-8"></script> <!-- Switch (toggle) component -->
+        <script src="scripts/components/diode.js" charset="utf-8"></script> <!-- Diode component -->
+        <script src="scripts/components/buzzer.js" charset="utf-8"></script> <!-- Buzzer component -->
+        <script src="scripts/components/logic.js" charset="utf-8"></script> <!-- Logical component -->
+        <script src="scripts/components/capacitor.js" charset="utf-8"></script> <!-- Capacitor -->
+
+        <!-- <script src="server/index.js" charset="utf-8"></script> File managment interface -->
+        <script src="sounds/index.js" charset="utf-8"></script> <!-- Sound interface -->
+        <script src="scripts/control.js" charset="utf-8"></script> <!-- Managmentt -->
+    </head>
+    <body>
+        <b id='lastUpdate'></b>
+        <table>
+            <tr>
+                <td>
+                    <div id="container"></div>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <th colspan='2'><h2>Main</h2></th>
+                        </tr>
+                        <tr>
+                            <th>Running </th>
+                            <td><input type='checkbox' id='s-running' checked='1' /></td>
+                        </tr>
+                        <tr>
+                            <th>Show Additional Info </th>
+                            <td><input type='checkbox' id='s-showInfo' checked='1' /></td>
+                        </tr>
+
+                        <tr>
+                            <th colspan='2'><h2>Actions</h2></th>
+                        </tr>
+                        <tr>
+                            <th>Wire Creation </th>
+                            <td><input type='checkbox' id='s-wireCreation' /></td>
+                        </tr>
+
+
+                        <tr>
+                            <th colspan='2'><h2>Debug</h2></th>
+                        </tr>
+                        <tr>
+                            <th>Debug </th>
+                            <td><input type='checkbox' id='s-debug' /></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <div id='target'></div>
+        <script src="_main.js" charset="utf-8"></script>
+    </body>
+</html>
