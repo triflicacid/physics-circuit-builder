@@ -1,7 +1,4 @@
-# Ignore vscode stuff
-/.vscode/*
+.vscode/*
+node_modules/*
 
-# Ignore node_modules
-/node_modules/*
-
-/app.bak/*
+app.bak/*
