@@ -1,0 +1,118 @@
+{
+    "width": 1000,
+    "height": 800,
+    "components": [
+    {
+        "type": "Cell",
+        "pos": [100, 600],
+        "data":
+        {
+            "maxCurrent": 5,
+            "voltage": 5,
+            "dir": 0
+        },
+        "conns": [
+        {
+            "index": 1,
+            "path": []
+        }],
+        "voltage": 5
+    },
+    {
+        "type": "Resistor",
+        "pos": [200, 600],
+        "data":
+        {
+            "maxCurrent": 9007199254740991,
+            "resistance": 0.08,
+            "american": false
+        },
+        "conns": [
+        {
+            "index": 2,
+            "path": []
+        }]
+    },
+    {
+        "type": "Thermometer",
+        "pos": [300, 600],
+        "data":
+        {
+            "maxCurrent": 9007199254740991,
+            "min": 0,
+            "max": 100
+        },
+        "conns": [
+        {
+            "index": 3,
+            "path": []
+        }]
+    },
+    {
+        "type": "Connector",
+        "pos": [400, 600],
+        "data":
+        {
+            "maxCurrent": 9007199254740991
+        },
+        "conns": [
+        {
+            "index": 4,
+            "path": []
+        },
+        {
+            "index": 5,
+            "path": []
+        }]
+    },
+    {
+        "type": "Thermistor",
+        "pos": [500, 600],
+        "data":
+        {
+            "maxCurrent": 9007199254740991,
+            "american": false
+        },
+        "conns": [
+        {
+            "index": 6,
+            "path": []
+        }]
+    },
+    {
+        "type": "Bulb",
+        "pos": [500, 100],
+        "data":
+        {
+            "maxCurrent": 5,
+            "resistance": 2,
+            "oldSymbol": false,
+            "wattage": 10,
+            "lpw": 15
+        },
+        "conns": [
+        {
+            "index": 6,
+            "path": []
+        }]
+    },
+    {
+        "type": "Connector",
+        "pos": [600, 600],
+        "data":
+        {
+            "maxCurrent": 9007199254740991
+        },
+        "conns": [
+        {
+            "index": 0,
+            "path": [
+                [629, 600],
+                [629, 700],
+                [30, 700],
+                [30, 600]
+            ]
+        }]
+    }],
+    "temp": 20
+}
