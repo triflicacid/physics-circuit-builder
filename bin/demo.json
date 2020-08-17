@@ -1,0 +1,54 @@
+{
+  "width": 800,
+  "height": 800,
+  "components": [{
+    "type": "Cell",
+    "pos": [160, 160],
+    "data": {
+      "maxCurrent": 9007199254740991,
+      "resistance": 0,
+      "voltage": 1.5,
+      "dir": 0
+    },
+    "conns": [{
+      "index": 1,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }],
+    "voltage": 1.5
+  }, {
+    "type": "Resistor",
+    "pos": [250, 160],
+    "data": {
+      "maxCurrent": 9007199254740991,
+      "mode": -1
+    },
+    "conns": [{
+      "index": 2,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Capacitor",
+    "pos": [456.4444274902344, 163.13194274902344],
+    "conns": [{
+      "index": 0,
+      "path": [
+        [612, 164],
+        [612, 340],
+        [100, 340],
+        [100, 160]
+      ],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }],
+  "pxcm": 1,
+  "temp": 100,
+  "light": 0
+}
