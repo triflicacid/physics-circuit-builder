@@ -18,20 +18,11 @@ define('CURRENT_VER', log_latest_version());
         <h1>Circuit Builder</h1>
         <p>This project is designed to model (simple) circuits, and as a learning tool for GCSE. It is still in development</p>
         <b>Current Release: <?php echo CURRENT_VER; ?></b>
-        <h2>NOTE: The code base is being refactored with major changes. For the latest stable version, see v5.5.0. 04/08/2020</h2>
         <br><br>
         <h3>Circuit</h3>
-        <a target="_blank" href="__versions__/30062020/">v0.0.0 (30/06/2020)</a><br>
-        <a target="_blank" href="__versions__/06072020_1/">v1.4.1 (06/07/2020)</a><br>
-        <a target="_blank" href="__versions__/06072020_2/">v2.0.1 (06/07/2020)</a><br>
-        <a target="_blank" href="__versions__/07072020/">v2.1.3 (07/07/2020)</a><br>
-        <a target="_blank" href="__versions__/14072020/">v2.8.0 (14/07/2020)</a><br>
-        <a target="_blank" href="__versions__/19072020/">v3.3.5 (19/07/2020)</a><br>
-        <a target="_blank" href="__versions__/02082020/">v5.2.2 (02/08/2020)</a><br>
-        <a target="_blank" href="__versions__/04082020/">v5.5.0 (04/08/2020)</a><br>
-        <mark>
-            <a target="_blank" href="app/dist/"><?php echo "v" . CURRENT_VER . " (" . date('d/m/Y') . ")"; ?></a>
-        </mark>
+        <a target="_blank" href="app/dist/">Latest</a>
+        <br><br>
+        <i>For older versions, see the <a target="_blank" href="https://github.com/ruben4447/physics-circuit-builder">GitHub repo</a></i>
         <h3>Other</h3>
         <a href="log/">Release Log</a><br>
         <a href="ideas.php">Upcoming Ideas</a><br>
