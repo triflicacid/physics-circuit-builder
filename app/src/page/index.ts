@@ -9,6 +9,7 @@ import Component from 'classes/component/Component';
 import Circuit from 'classes/circuit';
 import Beep from 'assets/beep';
 import Vars from './vars';
+import ComponentInfo from 'assets/componentInfo';
 
 export default class Page {
   public static isLoaded: boolean = false; // Has the page loaded?
@@ -29,6 +30,7 @@ export default class Page {
   public static readonly component = Component;
   public static readonly circuit = Circuit;
   public static readonly vars = Vars;
+  public static readonly componentInfo = ComponentInfo;
 
   /**
    * Show a given element

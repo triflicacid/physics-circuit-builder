@@ -297,24 +297,3 @@ table td.padLeft {
     color: red;
     cursor: pointer;
 }
-
-/* Component help styles */
-div.componentInfo name {
-    font-size: 1.6em;
-    font-weight: bold;
-}
-
-div.componentInfo tags {
-    font-size: small;
-    font-style: italic;
-    color: #878787;
-}
-
-div.componentInfo null {
-    font-style: italic;
-    color: gray;
-}
-
-div.componentInfo null::after {
-    content: "None";
-}

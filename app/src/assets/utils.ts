@@ -414,3 +414,17 @@ export function getElementById(id: string): HTMLElement {
   if (result == null) throw new NullError("HTMLElement", `No results for ID query '#${id}'`);
   return result;
 }
+
+export function sortObject(obj: object): object {
+  const keys: string[] = Object.keys(obj);
+  keys.sort();
+
+  const oldObj: any = <any>obj;
+  const newObj: any = {};
+
+  for (let key of keys) {
+    newObj[key] = oldObj[key];
+  }
+
+  return newObj;
+}

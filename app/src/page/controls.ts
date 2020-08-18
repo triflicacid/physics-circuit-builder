@@ -12,6 +12,7 @@ import { Direction, State, CapacitorState } from 'models/enum';
 import { ThermistorMode } from 'classes/component/all/Thermistor/index';
 import { IComponentInfo } from 'models/ComponentInfo';
 import Vars from './vars';
+import ComponentInfo from 'assets/componentInfo';
 
 /**
  * Class for controling and manipulating controls in circuit.php
@@ -39,6 +40,8 @@ export class Controls {
   public static USMode: HTMLInputElement; // Slider - US mode (change component style) ?
 
   public static _analyse: { [id: string]: HTMLElement };
+
+  public static readonly helpWindow: ComponentInfo = new ComponentInfo();
 
   /**
    * Initiate all controls
@@ -175,12 +178,18 @@ export class Controls {
     };
 
     Controls._analyse.cConfigButton.addEventListener('click', Controls._configButtonEventHandler);
+
+    // Help with given component
     Controls._analyse.cHelpButton.addEventListener('click', () => {
       let c: CircuitItem | null = Controls.componentShowingInfo;
       if (c != null && c instanceof Component) {
         Controls.componentHelp(c);
       }
     });
+
+    // Component : General Help
+    let btn: HTMLButtonElement = <HTMLButtonElement>utils.getElementById("component-helpButton");
+    btn.addEventListener("click", () => Controls.helpWindow.open());
   }
 
   /**
@@ -193,38 +202,10 @@ export class Controls {
     const cinfo: IComponentInfo = Vars.componentInfo[ctype];
 
     const popup: Popup = new Popup("Help - " + ctype);
+    popup.htmlContent = document.createElement("section");
+    popup.htmlContent.appendChild<HTMLSpanElement>(ComponentInfo.getHeader(ctype));
+    popup.htmlContent.appendChild<HTMLDivElement>(ComponentInfo.getInfo(ctype));
 
-    let html: string = "<div class='componentInfo'>";
-
-    // Name
-    html += `<name>${cinfo.name}</name>`;
-
-    // Tags?
-    if (cinfo.tags != null && cinfo.tags.length !== 0) html += `&nbsp; <small>🏷️ (${cinfo.tags.length}) &nbsp; <tags>${cinfo.tags.join(", ")}</tags></small>`;
-
-    // Added in
-    html += `<br><i>Added in ${cinfo.added}</i><br>`;
-
-    // About info
-    html += `<p>${cinfo.about.join('<br>')}</p>`;
-
-    // Action
-    html += `<p>&nbsp; &nbsp; <b>Actions</b><br>`;
-    html += `&nbsp; &bull; <b>Left-Click: </b>${cinfo.left == null ? "<null></null>" : cinfo.left}<br>`;
-    html += `&nbsp; &bull; <b>Right-Click: </b>${cinfo.right == null ? "<null></null>" : cinfo.right}<br>`;
-    html += `&nbsp; &bull; <b>Scroll: </b>${cinfo.scroll == null ? "<null></null>" : cinfo.scroll}</p>`;
-
-    // Config
-    if (cinfo.config != null) {
-      html += '<p><b>Config</b><br>';
-      for (let config of cinfo.config) {
-        html += `&nbsp; &bull; <b>${config[0]}</b>: ${config[1]}<br>`;
-      }
-      html += `</p>`;
-    }
-
-    html += "</div>";
-    popup.msg(html);
     popup.open();
 
     return cinfo;
