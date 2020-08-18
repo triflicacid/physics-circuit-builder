@@ -10,6 +10,8 @@ import { ComponentError, NullError } from 'classes/errors';
 import Wire from 'classes/wire';
 import { Direction, State, CapacitorState } from 'models/enum';
 import { ThermistorMode } from 'classes/component/all/Thermistor/index';
+import { IComponentInfo } from 'models/ComponentInfo';
+import Vars from './vars';
 
 /**
  * Class for controling and manipulating controls in circuit.php
@@ -159,9 +161,9 @@ export class Controls {
       cExternLight: utils.getElementById("analyse-c-externLight"),
       cExternTemp: utils.getElementById("analyse-c-externTemp"),
       cOther: utils.getElementById("analyse-c-other"),
-      // cConfig: utils.getElementById("analyse-config"),
       cConns: utils.getElementById("analyse-c-conns"),
       cConfigButton: utils.getElementById("analyse-c-configButton"),
+      cHelpButton: utils.getElementById("analyse-c-helpButton"),
 
       analyseWire: utils.getElementById('analyse-wire'),
       wHasRes: utils.getElementById("analyse-w-hasRes"),
@@ -173,6 +175,59 @@ export class Controls {
     };
 
     Controls._analyse.cConfigButton.addEventListener('click', Controls._configButtonEventHandler);
+    Controls._analyse.cHelpButton.addEventListener('click', () => {
+      let c: CircuitItem | null = Controls.componentShowingInfo;
+      if (c != null && c instanceof Component) {
+        Controls.componentHelp(c);
+      }
+    });
+  }
+
+  /**
+   * Help popup for a component
+   * @param c Component to get help for
+   * @return component information
+   */
+  public static componentHelp(c: Component): IComponentInfo {
+    const ctype: string = c.constructor.name;
+    const cinfo: IComponentInfo = Vars.componentInfo[ctype];
+
+    const popup: Popup = new Popup("Help - " + ctype);
+
+    let html: string = "<div class='componentInfo'>";
+
+    // Name
+    html += `<name>${cinfo.name}</name>`;
+
+    // Tags?
+    if (cinfo.tags != null && cinfo.tags.length !== 0) html += `&nbsp; <small>🏷️ (${cinfo.tags.length}) &nbsp; <tags>${cinfo.tags.join(", ")}</tags></small>`;
+
+    // Added in
+    html += `<br><i>Added in ${cinfo.added}</i><br>`;
+
+    // About info
+    html += `<p>${cinfo.about.join('<br>')}</p>`;
+
+    // Action
+    html += `<p>&nbsp; &nbsp; <b>Actions</b><br>`;
+    html += `&nbsp; &bull; <b>Left-Click: </b>${cinfo.left == null ? "<null></null>" : cinfo.left}<br>`;
+    html += `&nbsp; &bull; <b>Right-Click: </b>${cinfo.right == null ? "<null></null>" : cinfo.right}<br>`;
+    html += `&nbsp; &bull; <b>Scroll: </b>${cinfo.scroll == null ? "<null></null>" : cinfo.scroll}</p>`;
+
+    // Config
+    if (cinfo.config != null) {
+      html += '<p><b>Config</b><br>';
+      for (let config of cinfo.config) {
+        html += `&nbsp; &bull; <b>${config[0]}</b>: ${config[1]}<br>`;
+      }
+      html += `</p>`;
+    }
+
+    html += "</div>";
+    popup.msg(html);
+    popup.open();
+
+    return cinfo;
   }
 
   /**
@@ -227,7 +282,7 @@ export class Controls {
     const component = a.dataset.component;
     if (typeof component !== "string" || component.length === 0) {
       console.log(a);
-      throw new TypeError(`Cannot find dataset.component (^).`);
+      throw new TypeError(`Cannot find dataset.component(^).`);
     }
 
     Controls.insertingComponent = component;
@@ -340,69 +395,6 @@ export class Controls {
   }
 
   /**
-  * !TEMPORARY!
-  * ? while port to TS is under way
-  */
-  // /**
-  //  * Change a private configurable field
-  //  * @param  {Number} cid     Configuration field ID
-  //  * @param  {HTMLElement} elem   Elemm to get value from
-  //  */
-  // public static config(cid: number, elem: HTMLElement) {
-  //   if (Page.control instanceof Control && Controls.componentShowingInfo instanceof Component) {
-  //     const config: any[] = Controls.componentShowingInfo.constructor.config;
-  //     if (Array.isArray(config)) {
-  //       const field = config[cid];
-  //       let value: any;
-  //       if (elem instanceof HTMLInputElement) value = (<HTMLInputElement>elem).value;
-  //       else if (elem instanceof HTMLSelectElement) value = (<HTMLSelectElement>elem).value;
-  //       else throw new TypeError("Cannot get property value of " + elem.constructor.name);
-
-  //       let analyseAfter = false;
-  //       switch (field.type) {
-  //         case "boolean":
-  //           value = value === "1" || value === "true";
-  //           Controls.analyse(Controls.componentShowingInfo);
-  //           break;
-  //         case "number":
-  //           value = +value;
-  //           if (isNaN(value)) return;
-  //           break;
-  //         case "dir":
-  //           value = +value;
-  //           analyseAfter = true;
-  //           break;
-  //         case "option":
-  //           switch (field.optionType) {
-  //             case 'boolean':
-  //               value = value === "1" || value === "true";
-  //               break;
-  //             case "number":
-  //               value = +value;
-  //               if (isNaN(value)) return;
-  //               break;
-  //           }
-  //           analyseAfter = true;
-  //           break;
-  //         default:
-  //           console.warn(`Cannot set field '${field.field}' to '${value}': unknown argument mode '${field.type}'`);
-  //           return;
-  //       }
-
-  //       if (field.method) {
-  //         Controls.componentShowingInfo[field.field](value);
-  //       } else {
-  //         Controls.componentShowingInfo[
-  //           "_" + field.field
-  //         ] = value;
-  //       }
-
-  //       if (analyseAfter) Controls.analyse(Controls.componentShowingInfo);
-  //     }
-  //   }
-  // }
-
-  /**
    * Click on delete (x) button in analyse component
    * @param  {Number} id  ID of component. Default is Page.componentShowingInfo._id;
    * @param  {Boolean} reanalyse  Call Page.controls.analyse() after?
@@ -415,7 +407,7 @@ export class Controls {
 
     if (typeof id === 'number') {
       const c = Page.control.components[id];
-      if (c instanceof Component && window.confirm(`Remove component '${c.toString()}' from the circuit?`)) {
+      if (c instanceof Component && window.confirm(`Remove component '${c.toString()}' from the circuit ? `)) {
         c.remove();
 
         // If reanalyse, update analysis section...
@@ -517,7 +509,7 @@ export class Controls {
       if (c instanceof Components.Diode) other.push(["Direction", c.direction === Direction.Left ? "Left" : "Right"]);
       if (c instanceof Components.LightEmittingDiode) {
         const rgb: string = "rgb(" + c.getColour().join(", ") + ")";
-        other.push(["Colour", `<span style='background-color: ${rgb}'>hsb(${c.getColour(true).join(', ')})<br>${rgb}</span>`]);
+        other.push(["Colour", `< span style = 'background-color: ${rgb}' > hsb(${c.getColour(true).join(', ')}) < br > ${rgb} </span>`]);
       }
       if (c instanceof Components.Connector) {
         if (!c.isEnd) info.cResistance.innerHTML = "<abbr title='Resistance of connected circuits in parallel'>" + c.resistance + "</abbr>";
@@ -568,109 +560,34 @@ export class Controls {
       }
       info.cOther.innerHTML = otherHTML;
 
-      // // Config
-      // const config = c.constructor.config;
-      // if (Array.isArray(config)) {
-      //   const fields = [];
-      //   for (let i = 0; i < config.length; i++) {
-      //     const cobj = config[i];
-      //     const field = {
-      //       field: cobj.field,
-      //       type: cobj.type,
-      //       name: cobj.name,
-      //       html: "",
-      //     };
-      //     switch (cobj.type) {
-      //       case "boolean":
-      //         field.html = `<input type='radio' name='config-${
-      //           cobj.field
-      //           }' onclick='Page.controls.config(${i}, this)' value='0'${
-      //           c["_" + cobj.field] ? "" : " checked"
-      //           } /> ${utils.getHtmlBoolString(false)}
-      //                                       <input type='radio' name='config-${
-      //           cobj.field
-      //           }' onclick='Page.controls.config(${i}, this)' value='1'${
-      //           c["_" + cobj.field] ? " checked" : ""
-      //           } /> ${utils.getHtmlBoolString(true)}`;
-      //         break;
-      //       case "number":
-      //         if (cobj.slider) {
-      //           field.html = `<input type='range' min='${cobj.min}' step='${cobj.step == undefined ? 1 : cobj.step}' value='${c["_" + cobj.field]}' max='${cobj.max}' oninput='Page.controls.config(${i}, this); document.getElementById("c-config-${cobj.field}-value").innerText = this.value;' /> <span id='c-config-${cobj.field}-value'>${c["_" + cobj.field]}</span>`;
-      //         } else {
-      //           field.html = `<input type='number' min='${cobj.min}' value='${c["_" + cobj.field]}' max='${cobj.max}' onchange='Page.controls.config(${i}, this);' />`;
-      //         }
-      //         break;
-      //       case "dir":
-      //         field.html = `<input type='radio' name='config-${
-      //           cobj.field
-      //           }' onclick='Page.controls.config(${i}, this)' value='0'${
-      //           c["_" + cobj.field] ? "" : " checked"
-      //           } /> Left
-      //                           <input type='radio' name='config-${
-      //           cobj.field
-      //           }' onclick='Page.controls.config(${i}, this)' value='1'${
-      //           c["_" + cobj.field] ? " checked" : ""
-      //           } /> Right`;
-      //         break;
-      //       case "option": {
-      //         if (cobj.options.length > 2) {
-      //           field.html += `<select onchange='Page.controls.config(${i}, this)'>`;
-      //           for (let option of cobj.options) {
-      //             field.html += `<option value='${option.value}'${c["_" + cobj.field] === option.value ? " selected" : ""}>${option.name}</option>`;
-      //           }
-      //           field.html += '</select>';
-      //         } else {
-      //           for (let option of cobj.options) {
-      //             field.html += `<input type='radio' name='config-${cobj.field}' value='${option.value}'${c["_" + cobj.field] === option.value ? " checked" : ""} onclick='Page.controls.config(${i}, this);' /> ${option.name}`;
-      //           }
-      //         }
-      //         break;
-      //       }
-      //       default:
-      //         console.warn(
-      //           `${c.toString()} : config('${
-      //           cobj.field
-      //           }'): type '${cobj.type}' is not available`
-      //         );
-      //         continue;
-      //     }
-      //     fields.push(field);
-      //   }
+      // Connection info
+      const inputs: number = c.inputs.length;
+      const outputs: number = c.outputs.length;
+      const rows: number = Math.max(inputs, outputs);
+      let tmp: Component;
+      let html: string = "";
 
-      //   // Show config info
-      //   let html = "";
-      //   for (let field of fields) {
-      //     html += `<tr><th title='${c.toString()}.${field.field}: ${field.type}'>${field.name}</th><td>${field.html}</td></tr>`;
-      //   }
-      //   info.cConfig.innerHTML = html;
+      for (let i = 0; i < rows; i++) {
+        html += '<tr>';
 
-      //   // Connection info
-      //   const inputs = c._inputs.length;
-      //   const outputs = c._outputs.length;
-      //   const rows = Math.max(inputs, outputs);
-      //   let tmp;
-      //   html = "";
-      //   for (let i = 0; i < rows; i++) {
-      //     html += '<tr>';
+        if (i >= inputs) {
+          html += '<td colspan="2" />';
+        } else {
+          tmp = c.inputs[i].input;
+          html += `<td>${tmp.toString()}</td><td><span class='del-btn' title='Delete' onclick='Page.controls.clickDeleteComponent(${tmp.id}, true);'>&times;</span></td>`;
+        }
 
-      //     if (i >= inputs) {
-      //       html += '<td colspan="2" />';
-      //     } else {
-      //       tmp = c._inputs[i]._input;
-      //       html += `<td>${tmp.toString()}</td><td><span class='del-btn' title='Delete' onclick='Page.controls.clickDeleteComponent(${tmp._id}, true);'>&times;</span></td>`;
-      //     }
+        if (i >= outputs) {
+          html += '<td colspan="2" />';
+        } else {
+          tmp = c.outputs[i].output;
+          html += `<td>${tmp.toString()}</td><td><span class='del-btn' title='Delete' onclick='Page.controls.clickDeleteComponent(${tmp.id}, true);'>&times;</span></td>`;
+        }
 
-      //     if (i >= outputs) {
-      //       html += '<td colspan="2" />';
-      //     } else {
-      //       tmp = c._outputs[i]._output;
-      //       html += `<td>${tmp.toString()}</td><td><span class='del-btn' title='Delete' onclick='Page.controls.clickDeleteComponent(${tmp._id}, true);'>&times;</span></td>`;
-      //     }
+        html += '</tr>';
+      }
+      info.cConns.innerHTML = html;
 
-      //     html += '</tr>';
-      //   }
-      //   info.cConns.innerHTML = html;
-      // }
     } else if (c instanceof Wire) {
       Page.show(info.analyseWire);
       info.name.innerText = c.toString();

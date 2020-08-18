@@ -11,6 +11,8 @@ import Popup, { PopupMode } from 'classes/popup';
 import { Direction, CircuitExec } from 'models/enum';
 import Page from 'page/index';
 import IConfig from 'models/Config';
+import { IComponentInfo } from 'models/ComponentInfo';
+import Vars from 'page/vars';
 
 var nextID: number = 0;
 
