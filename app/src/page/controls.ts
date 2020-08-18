@@ -159,8 +159,9 @@ export class Controls {
       cExternLight: utils.getElementById("analyse-c-externLight"),
       cExternTemp: utils.getElementById("analyse-c-externTemp"),
       cOther: utils.getElementById("analyse-c-other"),
-      cConfig: utils.getElementById("analyse-config"),
+      // cConfig: utils.getElementById("analyse-config"),
       cConns: utils.getElementById("analyse-c-conns"),
+      cConfigButton: utils.getElementById("analyse-c-configButton"),
 
       analyseWire: utils.getElementById('analyse-wire'),
       wHasRes: utils.getElementById("analyse-w-hasRes"),
@@ -170,6 +171,8 @@ export class Controls {
       wRadius: utils.getElementById("analyse-w-radius"),
       wVolume: utils.getElementById("analyse-w-volume"),
     };
+
+    Controls._analyse.cConfigButton.addEventListener('click', Controls._configButtonEventHandler);
   }
 
   /**
@@ -254,8 +257,9 @@ export class Controls {
       const coords: [number, number] = Page.control.coordsOnCanvas(x, y);
 
       try {
-        Page.control.createComponent(component, ...coords);
+        const c: Component = Page.control.createComponent(component, ...coords);
         Page.control.render();
+        c.openConfigPopup();
         return true;
       } catch (e) {
         // 'Harmless' ComponentError
@@ -429,6 +433,17 @@ export class Controls {
   }
 
   /**
+   * Event handler for "analyse-c-configButton"
+   */
+  private static _configButtonEventHandler(): void {
+    if (Controls.componentShowingInfo != null) {
+      if (Controls.componentShowingInfo instanceof Component) {
+        Controls.componentShowingInfo.openConfigPopup();
+      }
+    }
+  }
+
+  /**
    * Analyse a certain component
    * @param  {Component} c    Component to analyse, or '1' to re-analyse current component
    */
@@ -466,7 +481,7 @@ export class Controls {
       info.cExternTemp.innerHTML = utils.roundTo(c.heatRecieving(), 2).toString();
 
       /*** Additional info ***/
-      let other = [];
+      const other: string[][] = [];
 
       // If luminous...
       if (c.isLuminous()) other.push(["Luminoscity", utils.roundTo(c.luminoscity(), 2) + "lm @ " + c.lumensPerWatt + "lm/w"]);
@@ -475,7 +490,7 @@ export class Controls {
         info.cName.innerText = utils.roundTo(c.maxVoltage, 1) + "V " + c.constructor.name;
         other.push(
           ["Brightness", utils.roundTo(c.brightness() * 100, 1) + "%"],
-          ["Old Symbol", utils.getHtmlBoolString(c.oldSymbol)]
+          ["Max Voltage", utils.roundTo(c.maxVoltage, 1).toString()],
         );
       }
 
@@ -508,7 +523,7 @@ export class Controls {
         if (!c.isEnd) info.cResistance.innerHTML = "<abbr title='Resistance of connected circuits in parallel'>" + c.resistance + "</abbr>";
         if (!(c instanceof Components.TwoWaySwitch)) other.push(["Type", c.isEnd ? "Joiner" : "Splitter"]);
       }
-      if (c instanceof Components.TwoWaySwitch) other.push(["Switch Pos", c.executing]);
+      if (c instanceof Components.TwoWaySwitch) other.push(["Switch Pos", c.executing.toString()]);
       if (c instanceof Components.Capacitor)
         other.push(
           ["Capacitance", c.capacitance + "µF"],

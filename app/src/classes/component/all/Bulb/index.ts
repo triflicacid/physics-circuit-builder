@@ -5,6 +5,8 @@ import { IAdditionalComponentData, IComponentData } from 'models/saveData';
 import IBulbData from './interface';
 import p5 from 'p5';
 import { NBoolean, MouseButton } from 'models/enum';
+import { IConfig } from 'models/Config';
+import Config from 'assets/config';
 
 /**
  * Bulb: light
@@ -32,6 +34,19 @@ export class Bulb extends Component {
     this._resistance = 2;
     this._lpw = 15; // between 12.5 - 17.5, (https://www.rapidtables.com/calc/light/how-watt-to-lumen.html)
     this._maxCurrent = 5;
+
+    // this._updateConfigStuff(); // This will be called later
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Change maxVoltage
+    this.configOptions.push(Config.newNumberInput(false, "Voltage", 0.1, 25, this.maxVoltage, 0.1, (c: Bulb, value: number) => {
+      c.maxVoltage = value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   public get maxVoltage(): number { return this._maxVoltage; }
@@ -43,7 +58,7 @@ export class Bulb extends Component {
    */
   public brightness(): number {
     // return this.isOn() ? Math.abs(this.current) / this.maxCurrent : 0;
-    return this.isOn() ? Math.abs(this.power()) / this.maxVoltage : 0;
+    return this.isOn() ? Math.abs(this.voltage) / this.maxVoltage : 0;
   }
 
   /**

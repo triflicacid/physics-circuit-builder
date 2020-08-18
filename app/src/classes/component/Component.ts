@@ -4,12 +4,13 @@ import type Circuit from 'classes/circuit';
 import CircuitItem from 'classes/circuitItem';
 import Wire from 'classes/wire';
 import { IConnectionData, IComponentData, IAdditionalComponentData } from 'models/saveData';
-import { ConnectionError, SaveError, ComponentError } from 'classes/errors';
+import { ConnectionError } from 'classes/errors';
 import p5 from 'p5';
 import Sounds from 'assets/sounds';
 import Popup, { PopupMode } from 'classes/popup';
-import { ComponentFlag, Direction, MouseButton, CircuitExec } from 'models/enum';
+import { Direction, CircuitExec } from 'models/enum';
 import Page from 'page/index';
+import IConfig from 'models/Config';
 
 var nextID: number = 0;
 
@@ -39,6 +40,7 @@ var nextID: number = 0;
  * @property current            Get current running through the component
  * @property maxCurrent         What is the max current this component can handle?
  * @property direction          Get direction of power source
+ * @property configPopup        Popup for configuration
  *
  * @method toString()           String representation of object
  * @method move(x, y)           Change coordinates of component
@@ -71,13 +73,17 @@ var nextID: number = 0;
  * @method traceBackward(c)     Trace through the circuit backwards until reached component
  * @method roundTrip(v)         Find the round trip and calculate stuff from it (v)
  * @method remove()             Remove the component
+ * @method _updateConfigPopup() Update config popup
+ * @method openConfigPopup()    Update and open the config popup
  * @method onClick(e)           Event for canvas, when user clicks on component
  * @method onMouseEnter()       Event for canvas, when mouse enters the component
  * @method onMouseLeave()       Event for canvas, when mouse leaves the component
  * @method onScroll(e)          Event for camvas, when user scrolls over component
- * @method getFlagDescriptor()  Get flag combination decription of thie object
  */
 export class Component extends CircuitItem {
+  public readonly configOptions: IConfig[] = [];
+  public configPopup: Popup;
+
   protected _id: number;
   protected _x: number = -1; // X-position of component
   protected _y: number = -1; // Y-position of component
@@ -108,6 +114,9 @@ export class Component extends CircuitItem {
 
     this._w = Component.DEFAULT_WIDTH;
     this._h = this._w;
+
+    this.configPopup = new Popup("Configure " + this.toString(), "No configuration options are available at the moment.")
+      .autoDelete(false);
   }
 
   public get id(): number { return this._id; }
@@ -883,15 +892,38 @@ export class Component extends CircuitItem {
   }
 
   /**
-   * Return a number, which is a unique combination of flags
-   * These may be decoded using '|' to determinate aspects of the component
+   * Update configPopup
    */
-  public getFlagDescriptor(): number {
-    let flag: number = 0;
-    if (this.isOn()) flag |= ComponentFlag.ON;
-    if (this.isBlown()) flag |= ComponentFlag.BLOWN;
-    if (this.isLuminous()) flag |= ComponentFlag.LUMINOUS;
-    return flag;
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (this.configOptions.length === 0) {
+      this.configPopup.htmlContent = null;
+      this.configPopup.msg(this.constructor.name + " is not configurable.");
+    } else {
+      this.configPopup.msg("");
+      this.configPopup.htmlContent = document.createElement("center");
+
+      const table: HTMLTableElement = document.createElement("table");
+      table.setAttribute("border", "1");
+      table.style.borderCollapse = "collapse";
+      table.insertAdjacentHTML('beforeend', '<tr><th>Field</th><th>Value</th></tr>');
+
+      for (let config of this.configOptions) {
+        const row: HTMLTableRowElement = document.createElement("tr");
+        row.appendChild(config.th);
+        row.appendChild(config.td);
+        table.appendChild(row);
+      }
+
+      this.configPopup.htmlContent.appendChild(table);
+    }
+  }
+
+  /**
+   * Update and open the configuration popup
+   */
+  public openConfigPopup(): void {
+    this._updateConfigStuff();
+    this.configPopup.open();
   }
 
   /**

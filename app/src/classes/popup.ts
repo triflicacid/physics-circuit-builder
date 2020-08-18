@@ -12,6 +12,7 @@ export enum PopupMode {
  * @property _title     Popup title
  * @property _mode      Mode (severity, almost) of popup
  * @property _msg       Array of text as a message
+ * @property _htmlContent Raw HTML content
  * @property _deleteOnClose Should we delete this reference in store on close?
  * @property _buttonText    Text for additional button
  * @property _buttonClicked Function to execute when button is clicked
@@ -22,6 +23,7 @@ export class Popup {
   private _mode: PopupMode = PopupMode.None;
   private _title: string = "";
   private _msg: string[] = [""];
+  private _htmlContent: HTMLElement | null = null;
   private _deleteOnClose: boolean = true;
   private _buttonText: string | null = null;
   private _onClose: Function | null = null;
@@ -36,6 +38,9 @@ export class Popup {
     // Popup.Store[this.id] = this;
   }
 
+  public get htmlContent(): HTMLElement | null { return this._htmlContent };
+  public set htmlContent(v: HTMLElement | null) { this._htmlContent = v; };
+
   /**
    * Position of this in Popup.Popups
    * @return {Number} index
@@ -46,6 +51,7 @@ export class Popup {
 
   /**
    * Should we delete from store on close?
+   * @default true
    * @param  {Boolean} bool Delete on close?
    * @return {Popup} this
    */
@@ -128,6 +134,7 @@ export class Popup {
     // Main
     let main = document.createElement("MAIN");
     main.insertAdjacentHTML("beforeend", this._msg.join("<br />"));
+    if (this._htmlContent != null) main.appendChild(this._htmlContent);
     this._root.appendChild(main);
     this._root.appendChild(document.createElement("HR"));
 

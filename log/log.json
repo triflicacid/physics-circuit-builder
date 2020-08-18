@@ -204,6 +204,12 @@
                     ["16:30", "Small quality-of-life improvments."],
                     ["17:12", "Added capacitor", "Lots of bug fixes."],
                     ["17:49", "Added displayMode functionality."]
+                ],
+                [
+                    ["20:20", "To align with GCSE, bulb 'wattage' is now changed to 'voltage'. E.g. '10-Watt bulb' -> '10V bulb'"]
+                ],
+                [
+                    ["10:55", "Added configuration for components. NB: configuration is a one-time on-creation thing, despite the fact you can configure whenever at the moment. As such, mouse-controlled options are not in the components' 'configure' menu", "Configure Cell and Bulb so far."]
                 ]
             ]
         }

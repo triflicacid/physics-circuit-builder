@@ -4,6 +4,7 @@ import Component from "classes/component/Component";
 import p5 from "p5";
 import { Direction } from "models/enum";
 import PowerSource from "classes/component/PowerSource";
+import Config from "assets/config";
 
 /**
  * A cell has a voltage; DC power
@@ -18,6 +19,23 @@ export class Cell extends PowerSource {
   public constructor(parentCircuit: Circuit) {
     super(parentCircuit);
     this._voltage = 1.5;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Voltage
+    this.configOptions.push(Config.newMultiOption<number>("Voltage", this._voltage, [
+      { text: '1.5V', value: 1.5 },
+      { text: '3V', value: 3 },
+      { text: '5V', value: 5 },
+      { text: '6V', value: 6 },
+      { text: '9V', value: 9 },
+    ], (c: Cell, value: number): void => {
+      c._voltage = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   // super.eval()
