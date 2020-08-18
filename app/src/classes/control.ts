@@ -624,6 +624,12 @@ export class Control {
           case 'e':
             Controls.showInfo.click();
             break;
+          case "h":
+            // Component help
+            if (Controls.componentShowingInfo != null && Controls.componentShowingInfo instanceof Component) {
+              Controls.componentHelp(Controls.componentShowingInfo.constructor.name);
+            }
+            break;
           case "s":
             File.save();
             break;

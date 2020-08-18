@@ -51,6 +51,7 @@ sort($keys);
         <br>
         <b>Current Release: <?php echo CURRENT_VER; ?><br>Components: <?php echo count($keys); ?></b>
         <br>
+        <i>NB For more advanced help (searching etc...) view the integrated help in the circuit app. (Components &gt; Help for list, or Analyse &gt; Help for one component)</i>
     </center>
 
     <?php

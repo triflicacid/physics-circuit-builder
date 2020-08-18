@@ -122,11 +122,33 @@ export class Controls {
     });
 
     // Components button
+    let emptySpaces: HTMLElement[] = utils.querySelectorAll('.menu-tab[tab-target="components"] tr.empty td');
+    emptySpaces.shift();
+
     let links: HTMLElement[] = utils.querySelectorAll('.menu-tab[tab-target="components"] a[data-component]');
+    let i = 0;
     for (let link of links) {
       const component: string | undefined = link.dataset.component;
       if (component == undefined) throw new NullError("HTMLElement.dataset.component", "Expected all insert components elements to have dataset-component: " + link);
       link.classList.add("insert-component");
+
+      // When hover, show button with component name. Button redirects to help popup.
+      const eIndex = i;
+      link.addEventListener("mouseenter", (e: Event) => {
+        let space: HTMLElement = emptySpaces[eIndex];
+
+        const btn: HTMLButtonElement = document.createElement("button");
+        btn.innerHTML = `<small>${component}</small>`;
+        btn.addEventListener("click", () => Controls.componentHelp(utils.toClassName(component)));
+        space.appendChild(btn);
+      });
+      link.addEventListener("mouseleave", (e: Event) => {
+        // Delay - give use time to press button
+        setTimeout(() => {
+          let space: HTMLElement = emptySpaces[eIndex];
+          space.innerHTML = "";
+        }, 2500);
+      });
 
       const img: HTMLImageElement = document.createElement("img");
       img.dataset.component = component;
@@ -139,6 +161,8 @@ export class Controls {
         Controls.clickInsertComponentBtn(target);
         event.stopPropagation();
       });
+
+      i++;
     }
 
     // Event listener for inserting components
@@ -183,7 +207,7 @@ export class Controls {
     Controls._analyse.cHelpButton.addEventListener('click', () => {
       let c: CircuitItem | null = Controls.componentShowingInfo;
       if (c != null && c instanceof Component) {
-        Controls.componentHelp(c);
+        Controls.componentHelp(c.constructor.name);
       }
     });
 
@@ -194,11 +218,10 @@ export class Controls {
 
   /**
    * Help popup for a component
-   * @param c Component to get help for
+   * @param c Component to get help for (constructor's name)
    * @return component information
    */
-  public static componentHelp(c: Component): IComponentInfo {
-    const ctype: string = c.constructor.name;
+  public static componentHelp(ctype: string): IComponentInfo {
     const cinfo: IComponentInfo = Vars.componentInfo[ctype];
 
     const popup: Popup = new Popup("Help - " + ctype);

@@ -210,7 +210,9 @@
                 ],
                 [
                     ["10:55", "Added configuration for components. NB: configuration is a one-time on-creation thing, despite the fact you can configure whenever at the moment. As such, mouse-controlled options are not in the components' 'configure' menu", "Configure Cell and Bulb so far."],
-                    ["14:53", "Integrated component help directly into application.", "Seperated bulky data out into seperate files. (materials and componentInfo)"]
+                    ["14:53", "Integrated component help directly into application.", "Seperated bulky data out into seperate files. (materials and componentInfo)"],
+                    ["19:15", "Integrated component help into circuit app.", "Hover over component and click 'Help' to view component info, or view omponent list under 'Components > Help'"],
+                    ["19:52", "When inserting component, name flashes in button beneath image. Clicking the button shows help for that component."]
                 ]
             ]
         }
