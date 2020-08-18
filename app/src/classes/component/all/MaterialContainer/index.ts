@@ -1,11 +1,13 @@
 import Component from "classes/component/Component";
 import IMaterial, { IMaterialDef } from "models/material";
-import { materials } from "classes/materials";
 import type Circuit from "classes/circuit";
 import * as utils from 'assets/utils';
 import p5 from "p5";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IMaterialContainerData from "./interface";
+import Vars from "page/vars";
+
+let materials: any[] = [];
 
 /**
  * Container which holds materials
@@ -22,8 +24,8 @@ import IMaterialContainerData from "./interface";
 export class MaterialContainer extends Component {
   public static minLength: number = 10;
   public static maxLength: number = 150;
-  public static readonly materials: IMaterialDef[] = [...materials];
-  public static readonly materialKeys: string[] = MaterialContainer.materials.map(m => m.name);
+  public static readonly materials: IMaterialDef[] = [];
+  public static readonly materialKeys: string[] = [];
 
   protected _material: number;
   public update: boolean = false;
@@ -171,6 +173,15 @@ export class MaterialContainer extends Component {
     if (typeof data.material === 'number' && !isNaN(data.material)) this.material = data.material;
     if (typeof data.length === 'number' && !isNaN(data.length)) this.length = data.length;
     return this;
+  }
+
+
+  public static getMaterials(): void {
+    MaterialContainer.materials.length = 0;
+    MaterialContainer.materials.push(...Vars.materials);
+
+    MaterialContainer.materialKeys.length = 0;
+    MaterialContainer.materialKeys.push(...MaterialContainer.materials.map(m => m.name));
   }
 }
 

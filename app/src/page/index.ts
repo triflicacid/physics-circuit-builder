@@ -8,8 +8,10 @@ import { File } from './file';
 import Component from 'classes/component/Component';
 import Circuit from 'classes/circuit';
 import Beep from 'assets/beep';
+import Vars from './vars';
 
 export default class Page {
+  public static isLoaded: boolean = false; // Has the page loaded?
   public static control: Control | null = null; // Current Control object
   public static readonly window: HTMLElement = utils.getElementById("window"); // "Parent" or root element
   public static readonly openPopups: Popup[] = []; // Array of OPEN popups
@@ -26,6 +28,7 @@ export default class Page {
   public static readonly controls = Controls;
   public static readonly component = Component;
   public static readonly circuit = Circuit;
+  public static readonly vars = Vars;
 
   /**
    * Show a given element

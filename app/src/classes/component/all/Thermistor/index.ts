@@ -7,6 +7,7 @@ import p5 from "p5";
 import Sounds from "assets/sounds";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IThermistorData from "./interface";
+import { MouseButton } from "models/enum";
 
 /**
  * Resistance changes with heat
@@ -107,7 +108,11 @@ export class Thermistor extends Resistor {
   }
 
   public onMouseDown(event: MouseEvent): void {
-    this.toggle();
+    if (event.button === MouseButton.Right) {
+      this.american = !this.american;
+    } else {
+      this.toggle();
+    }
   }
 
   /**

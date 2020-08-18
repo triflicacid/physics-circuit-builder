@@ -1,12 +1,12 @@
 import Component from "classes/component/Component";
 import type Circuit from "classes/circuit";
 import IMaterial from "models/material";
-import materials from "classes/materials";
 import Wire from "classes/wire";
 import * as utils from 'assets/utils';
 import p5 from "p5";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IWireContainerData from "./interface";
+import Vars from "page/vars";
 
 /**
  * Container which holds a wire
@@ -25,8 +25,8 @@ import IWireContainerData from "./interface";
  * @method radiusCm()       Get / Set radius in cm
  */
 export class WireContainer extends Component {
-  public static readonly materials: IMaterial[] = materials.filter(m => m.wire);
-  public static readonly materialKeys: string[] = WireContainer.materials.map(m => m.name);
+  public static readonly materials: IMaterial[] = [];
+  public static readonly materialKeys: string[] = [];
   public static readonly minLength: number = 1;
   public static readonly maxLength: number = 100;
   public static readonly minRadius = 1;
@@ -217,6 +217,15 @@ export class WireContainer extends Component {
     if (typeof data.length === 'number' && !isNaN(data.length)) this.length = data.length;
     if (typeof data.r === 'number' && !isNaN(data.r)) this.radius = data.r;
     return this;
+  }
+
+
+  public static getMaterials(): void {
+    WireContainer.materials.length = 0;
+    WireContainer.materials.push(...Vars.materials.filter(m => m.wire));
+
+    WireContainer.materialKeys.length = 0;
+    WireContainer.materialKeys.push(...WireContainer.materials.map(m => m.name));
   }
 }
 export default WireContainer;

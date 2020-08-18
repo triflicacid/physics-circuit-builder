@@ -621,17 +621,8 @@ export class Control {
           case "a":
             Tab.select(Tab.analyse);
             break;
-          case "c":
-            Tab.select(Tab.components);
-            break;
-          case "Control":
-            Tab.select(Tab.control);
-            break;
           case 'e':
             Controls.showInfo.click();
-            break;
-          case "f":
-            Tab.select(Tab.file);
             break;
           case "s":
             File.save();

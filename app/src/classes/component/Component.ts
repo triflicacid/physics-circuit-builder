@@ -215,6 +215,11 @@ export class Component extends CircuitItem {
    * @param {Function} fn         Contains personalised rendering info
    */
   render(fn?: (p: p5, colour: p5.Color, circuitRunning: boolean) => void): void {
+    if (!Page.isLoaded) {
+      console.warn("Please wait for the oage to load before rendering...");
+      return;
+    }
+
     const p: p5 = this.p5;
 
     // Sort out connections

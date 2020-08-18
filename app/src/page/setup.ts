@@ -5,8 +5,12 @@ import File from './file';
 import Controls from './controls';
 import * as utils from 'assets/utils';
 import { NullError } from 'classes/errors';
+import Vars from './vars';
+import { WireContainer, MaterialContainer } from 'classes/component/all/index';
+import { IMaterialDef } from 'models/material';
+import Wire from 'classes/wire';
 
-export default function (): void {
+export default async function (): Promise<void> {
   (<any>window).Page = Page;
 
   // console.log("%cSetting up app...", "color: lightblue; font-weight: bold;");
@@ -67,4 +71,14 @@ export default function (): void {
   Controls.init();
   Page.hide(Controls._analyse.analyseCircuit);
   Page.hide(Controls._analyse.analyseWire);
+
+  // Load materials
+  let response: Response = await fetch('./assets/data/materials.json');
+  let json: IMaterialDef[] = await response.json();
+  for (let material of json) Vars.materials.push(material);
+
+  Page.isLoaded = true;
+  WireContainer.getMaterials();
+  MaterialContainer.getMaterials();
+  Wire.getMaterials();
 };

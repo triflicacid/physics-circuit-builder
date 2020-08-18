@@ -1,0 +1,371 @@
+{
+  "ACPowerSupply": {
+    "name": "AC Power Supply",
+    "added": "1.2.2",
+    "about": [
+      "Produces a voltage which reverses (Hz)"
+    ],
+    "right": "reverse direction",
+    "left": "reverse direction",
+    "scroll": "change voltage",
+    "config": null,
+    "tags": ["PowerSource"]
+  },
+
+  "Battery": {
+    "name": "Battery",
+    "added": "1.2.1",
+    "about": [
+      "Multiple cells stacked up in a container",
+      "NB the rendering of the battery is not finished, so it looks odd."
+    ],
+    "right": "reverse direction",
+    "left": "reverse direction",
+    "scroll": null,
+    "config": null,
+    "tags": ["PowerSource", "GCSE"]
+  },
+
+  "Cell": {
+    "name": "Cell",
+    "added": "1.0.0",
+    "about": [
+      "Produces a current with a fixed voltage in one direction."
+    ],
+    "right": "reverse direction",
+    "left": "reverse direction",
+    "scroll": null,
+    "config": null,
+    "tags": ["PowerSource", "GCSE"]
+  },
+
+  "DCPowerSupply": {
+    "name": "DC Power Supply",
+    "added": "1.3.0",
+    "about": [
+      "Produces a current in one direction. Voltage of component is adjustable within a range."
+    ],
+    "right": "reverse direction",
+    "left": "reverse direction",
+    "scroll": "increase / decrease voltage",
+    "config": null,
+    "tags": ["PowerSource"]
+  },
+
+
+  "Ammeter": {
+    "name": "Ammeter",
+    "added": "1.0.4",
+    "about": [
+      "Measures current flowing through it. Must be placed in <b>series</b>."
+    ],
+    "right": "Change units (e.g. milli-amps, micro-amps ...)",
+    "left": "Change units (e.g. milli-amps, micro-amps ...)",
+    "scroll": "Change units (e.g. milli-amps, micro-amps ...)",
+    "config": null,
+    "tags": ["GCSE", "Measure"]
+  },
+
+  "Lightmeter": {
+    "name": "Lightmeter",
+    "added": "3.1.4",
+    "about": [
+      "Measures the light (in lumens) that the component is recieving."
+    ],
+    "right": "Change units (e.g. milli-lumens, micro-lumens ...)",
+    "left": "Change units (e.g. milli-lumens, micro-lumens ...)",
+    "scroll": "Change units (e.g. milli-lumens, micro-lumens ...)",
+    "config": null,
+    "tags": ["Measure", "Light"]
+  },
+
+  "Thermometer": {
+    "name": "Thermometer",
+    "added": "3.2.3",
+    "about": [
+      "Measures the external temperature (in degrees celcius)."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Measure", "Heat"]
+  },
+
+  "Voltmeter": {
+    "name": "Voltmeter",
+    "added": "2.0.2",
+    "about": [
+      "Measures voltage across it. Must be placed in <b>parallel</b>."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["GCSE", "Measure"]
+  },
+
+
+  "Bulb": {
+    "name": "Bulb",
+    "added": "1.0.0",
+    "about": [
+      "Lights up when a current is passed through it (brightness varies with current).",
+      "Assign a maximum voltage. If this is exceeded, the bulb will blow and break the circuit."
+    ],
+    "right": "Old / New circuit symbol",
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["GCSE", "Output", "Light", "Blowable"]
+  },
+
+  "Buzzer": {
+    "name": "Buzzer",
+    "added": "1.3.2",
+    "about": [
+      "Buzzes when a current is passed through it (volume varies with current). Assign a maximum current."
+    ],
+    "right": "Mute / Unmute",
+    "left": "Mute / Unmute",
+    "scroll": "Change frequency",
+    "config": null,
+    "tags": ["GCSE", "Output"]
+  },
+
+  "Heater": {
+    "name": "Heater",
+    "added": "3.2.2",
+    "about": [
+      "Slowly heats the surroundings over time. Cannot heat over a certain temperature."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["GCSE", "Output", "Heat"]
+  },
+
+  "LightEmittingDiode": {
+    "name": "Light Emitting Diode",
+    "added": "1.2.1",
+    "about": [
+      "A diode which lights up when a current is passed through. May be different colours. Either on or off (one brightness)."
+    ],
+    "right": "reverse diode direction",
+    "left": "reverse diode direction",
+    "scroll": "change hue (colour) of LED",
+    "config": null,
+    "tags": ["GCSE", "Output", "Light", "Switch"]
+  },
+
+  "Motor": {
+    "name": "Motor",
+    "added": "3.1.3",
+    "about": [
+      "Spins. Speed varied with current. In our model, the 'M' spins and the current:speed ratio is linear."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": "adjust current:speed ratio",
+    "config": null,
+    "tags": ["Output"]
+  },
+
+
+  "Capacitor": {
+    "name": "Capacitor",
+    "added": "3.0.0",
+    "about": [
+      "When connected to power, will charge up to a target voltage exponentially. (electrons collect on plates, generating an electric field)",
+      "When disconnected from power but has a route back to itself, will discharge. (electrons flow to the other plate, neutralising the charge)"
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Advanced"]
+  },
+
+  "Connector": {
+    "name": "Connector",
+    "added": "2.0.0",
+    "about": [
+      "Either split a circuit into parallel circuits, or join two circuits back to series.",
+      "<b>Split Mode</b> - split a circuit into two circuits in parallel with each other.",
+      "<b>Join Mode</b> - join two parallel circuits back into original series from which they were split from."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": null
+  },
+
+  "Diode": {
+    "name": "Diode",
+    "added": "1.2.1",
+    "about": [
+      "Only allows current to flow one way. Breaks the circuit if current is recieved in opposite direction."
+    ],
+    "right": "reverse direction of diode",
+    "left": "reverse direction of diode",
+    "scroll": "adjust current:speed ratio",
+    "config": null,
+    "tags": ["GCSE", "Switch"]
+  },
+
+  "Fuse": {
+    "name": "Fuse",
+    "added": "1.1.4",
+    "about": [
+      "Set a maximum current. Blows if the current exceeds this maximum, breaking the circuit."
+    ],
+    "right": "one-time: blow fuse",
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["GCSE", "Blowable"]
+  },
+
+  "PushSwitch": {
+    "name": "Push Switch (Button)",
+    "added": "5.13.1",
+    "about": [
+      "Switch, but only closed when pressed (mouse button is pressed)"
+    ],
+    "right": "Switch is closed while mouse is pressed, but when released it opens",
+    "left": "Switch is closed while mouse is pressed, but when released it opens",
+    "scroll": null,
+    "config": null,
+    "tags": ["Switch"]
+  },
+
+  "Switch": {
+    "name": "Switch",
+    "added": "1.1.5",
+    "about": [
+      "Normal switch. Either open or closed. If open, the circuit is broken."
+    ],
+    "right": "toggle open/close",
+    "left": "toggle open/close",
+    "scroll": null,
+    "config": null,
+    "tags": ["GCSE", "Switch"]
+  },
+
+  "TouchSwitch": {
+    "name": "Touch Switch",
+    "added": "5.13.1",
+    "about": [
+      "Switch, but only closed when touched (mouse is over component)"
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Switch"]
+  },
+
+
+  "LightDependantResistor": {
+    "name": "Light Dependant Resistor (LDR)",
+    "added": "3.2.0",
+    "about": [
+      "Resistance is dependant upon light levels. The smaller the light level, the larger the resistance."
+    ],
+    "right": "Toggle between US/UK circuit symbol",
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Resistor", "Light"]
+  },
+
+  "Resistor": {
+    "name": "Resistor (Fixed)",
+    "added": "1.0.2",
+    "about": [
+      "Has a fixed resistance."
+    ],
+    "right": "Toggle between US/UK circuit symbol",
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Resistor"]
+  },
+
+  "Thermistor": {
+    "name": "Thermistor",
+    "added": "3.2.5",
+    "about": [
+      "Resistance is dependant upon temperature of surroundings.",
+      "&nbsp; &bull; <b>NTC</b> (default in GCSE) - Negative temp:resistance correlation. Resistance increases while temperature decreases. Smaller temp, bigger resistance.",
+      "&nbsp; &bull; <b>PTC</b> - Positive temp:resistance correlation. Resistance increases with decreases. Smaller temp, smaller resistance."
+    ],
+    "right": "Toggle between US/UK circuit symbol",
+    "left": "Toggle between NTC/PTC modes",
+    "scroll": null,
+    "config": null,
+    "tags": ["Resistor"]
+  },
+
+  "VariableResistor": {
+    "name": "Variable Resistor",
+    "added": "3.1.1",
+    "about": [
+      "Set a resistance which may be changed."
+    ],
+    "right": "Toggle between US/UK circuit symbol",
+    "left": "Toggle between US/UK circuit symbol",
+    "scroll": "change resistance",
+    "config": null,
+    "tags": ["GCSE", "Resistor"]
+  },
+
+  "MaterialContainer": {
+    "name": "Material Container",
+    "added": "5.0.0",
+    "about": [
+      "A container which holds a 'material'.",
+      "Each material has a value in ohm-metres, but we interpret this as ohm-centimetres to make the value noticeable. The resistance depends on the material and the length of the container, as well as the external 'Environment > Pixels per centimetre' value."
+    ],
+    "right": "Toggle scroll-action between 'change material' (default) and 'change container width'",
+    "left": "Toggle scroll-action between 'change material' (default) and 'change container width'",
+    "scroll": "EIther change material of container, or change container's width",
+    "config": null,
+    "tags": ["Experiments", "Container"]
+  },
+
+  "WireContainer": {
+    "name": "Wire Container",
+    "added": "5.1.3",
+    "about": [
+      "A container which holds a wire of a certain 'material'.",
+      "Each material has a value in ohm-metres, but we interpret this as ohm-centimetres to make the value noticeable. The resistance depends on the material and the length of the container, as well as the external 'Environment > Pixels per centimetre' value.",
+      "To make the resistance more noticable, the resistance is multiplied by a constant (around 1,000)."
+    ],
+    "right": "Toggle scroll-action between 'change material' and 'change wire length' (default)",
+    "left": "Toggle scroll-action between 'change material' and 'change wire length' (default)",
+    "scroll": "EIther change material of wire, or change wires' length",
+    "config": null,
+    "tags": ["Experiments", "Container", "Wire"]
+  },
+
+  "Wire": {
+    "name": "Wire",
+    "added": "0.0.0",
+    "about": [
+      "A wire connects components together, and is fundamental to the circuit.",
+      "By default, the wire is simple a connection, but it from v5.1.1, wires can also have a resistance.",
+      "",
+      "A wire will only have a resistance if the 'Has Resistance' setting is on. If it is, the wire's material, cross-section radius (thickness) and length will effect its resistance.",
+      "Each material has a resistance value of ohm-metres (ohms of resistance per metre cubed). Of course, this would be way to small to have any effect, so the value is interpreted as ohm-centimetres.",
+      "This value may be externally influenced by changing the 'Environment > Pixels per centimetre' value. The smaller the value, the higher the resistance."
+    ],
+    "right": null,
+    "left": null,
+    "scroll": null,
+    "config": null,
+    "tags": ["Wire"]
+  }
+}

@@ -6,7 +6,7 @@ import Component from './component/Component';
 import { IConnectionData } from 'models/saveData';
 import IMaterial from 'models/material';
 import p5 from 'p5';
-import materials from './materials';
+import Vars from 'page/vars';
 
 /**
  * Wire - a connection between two components
@@ -409,12 +409,21 @@ export class Wire extends CircuitItem {
   }
 
 
-  public static readonly MATERIALS: IMaterial[] = materials.filter(m => m.wire);
-  public static readonly MATERIALS_KEYS: string[] = Wire.MATERIALS.map(m => m.name);
+  public static readonly MATERIALS: IMaterial[] = [];
+  public static readonly MATERIALS_KEYS: string[] = [];
   public static DEFAULT_RADIUS: number = 1.5;
   public static MIN_RADIUS: number = 0.4;
   public static MAX_RADIUS: number = 15;
   public static HANDLE_RADIUS: number = 4;
+
+  // Load material array from Vars
+  public static getMaterials(): void {
+    Wire.MATERIALS.length = 0;
+    Wire.MATERIALS.push(...Vars.materials.filter(m => m.wire));
+
+    Wire.MATERIALS_KEYS.length = 0;
+    Wire.MATERIALS_KEYS.push(...Wire.MATERIALS.map(m => m.name));
+  }
 }
 
 export default Wire;
