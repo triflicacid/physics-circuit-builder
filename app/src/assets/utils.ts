@@ -1,4 +1,5 @@
 import { NullError } from "classes/errors";
+import { IMaterialDef } from "models/material";
 
 /**
    * Given a set of polar coordinates, return cartesian
@@ -427,4 +428,15 @@ export function sortObject(obj: object): object {
   }
 
   return newObj;
+}
+
+// CHange IMaterialDef[] to option array
+export function materialToOptionsArray(materials: IMaterialDef[]): { text: string, value: number }[] {
+  const array: { text: string, value: number }[] = [];
+
+  for (let i = 0; i < materials.length; i++) {
+    array.push({ text: nicifyString(materials[i].name, ' '), value: i });
+  }
+
+  return array;
 }

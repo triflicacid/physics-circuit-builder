@@ -35,7 +35,9 @@
     "right": "reverse direction",
     "left": "reverse direction",
     "scroll": null,
-    "config": null,
+    "config": [
+      ["Voltage", "Voltage of cell"]
+    ],
     "tags": ["PowerSource", "GCSE"]
   },
 
@@ -116,7 +118,9 @@
     "right": "Old / New circuit symbol",
     "left": null,
     "scroll": null,
-    "config": null,
+    "config": [
+      ["Voltage", "(Maximum) Voltage of Bulb"]
+    ],
     "tags": ["GCSE", "Output", "Light", "Blowable"]
   },
 

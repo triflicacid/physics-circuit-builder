@@ -5,6 +5,7 @@ import Control from "classes/control";
 import p5 from "p5";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IHeaterData from "./interface";
+import Config from "assets/config";
 
 /**
  * Heater: convert electrical energy to heat
@@ -34,6 +35,18 @@ export class Heater extends Component {
     this._efficiency = utils.randomInt(10, 60) * 100;
     this._maxTemp = Control.MAX_TEMP;
     this._maxTempJoules = utils.deg2joules(this._maxTemp);
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Efficiency
+    this.configOptions.push(Config.newNumberInput(true, "Efficiency", 1, 100, this._efficiency, 0.1, (c: Heater, value: number): void => {
+      c._efficiency = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   // Get degrees celcius temperature of heater

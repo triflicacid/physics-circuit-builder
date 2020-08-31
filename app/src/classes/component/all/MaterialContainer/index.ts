@@ -6,6 +6,7 @@ import p5 from "p5";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IMaterialContainerData from "./interface";
 import Vars from "page/vars";
+import Config from "assets/config";
 
 let materials: any[] = [];
 
@@ -35,10 +36,25 @@ export class MaterialContainer extends Component {
     super(parentCircuit);
 
     this._material = utils.randomInt(MaterialContainer.materials.length);
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Material
+    this.configOptions.push(Config.newMultiOption<number>("Material", this._material, utils.materialToOptionsArray(MaterialContainer.materials), (c: MaterialContainer, value: number): void => {
+      c.material = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   public get material(): number { return this._material; }
-  public set material(index: number) { this._material = utils.clamp(index, 0, MaterialContainer.materialKeys.length - 1); }
+  public set material(index: number) {
+    this._material = utils.clamp(index, 0, MaterialContainer.materialKeys.length - 1);
+    this.update = true;
+  }
 
   public get length(): number { return this._w; }
   public set length(l: number) {

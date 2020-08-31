@@ -1,12 +1,13 @@
 import Component from "classes/component/Component";
 import type Circuit from "classes/circuit";
-import IMaterial from "models/material";
+import IMaterial, { IMaterialDef } from "models/material";
 import Wire from "classes/wire";
 import * as utils from 'assets/utils';
 import p5 from "p5";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IWireContainerData from "./interface";
 import Vars from "page/vars";
+import Config from "assets/config";
 
 /**
  * Container which holds a wire
@@ -25,7 +26,7 @@ import Vars from "page/vars";
  * @method radiusCm()       Get / Set radius in cm
  */
 export class WireContainer extends Component {
-  public static readonly materials: IMaterial[] = [];
+  public static readonly materials: IMaterialDef[] = [];
   public static readonly materialKeys: string[] = [];
   public static readonly minLength: number = 1;
   public static readonly maxLength: number = 100;
@@ -44,10 +45,25 @@ export class WireContainer extends Component {
     this._h /= 2;
 
     this._material = utils.randomInt(WireContainer.materialKeys.length);
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Wire Material
+    this.configOptions.push(Config.newMultiOption<number>("Wire Material", this._material, utils.materialToOptionsArray(WireContainer.materials), (c: WireContainer, value: number): void => {
+      c.material = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   public get material(): number { return this._material; }
-  public set material(index: number) { this._material = utils.clamp(index, 0, WireContainer.materialKeys.length - 1); }
+  public set material(index: number) {
+    this._material = utils.clamp(index, 0, WireContainer.materialKeys.length - 1);
+    this.update = true;
+  }
 
   public get materialData(): IMaterial { return WireContainer.materials[this._material]; }
 

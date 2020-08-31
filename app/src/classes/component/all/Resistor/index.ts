@@ -5,6 +5,7 @@ import p5 from "p5";
 import { MouseButton, NBoolean } from "models/enum";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import IResistorData from "./interface";
+import Config from "assets/config";
 
 /**
  * Component with a resistance
@@ -24,6 +25,18 @@ export class Resistor extends Component {
     this._resistance = 1;
 
     this._h /= 3;
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Resistance
+    this.configOptions.push(Config.newNumberInput(false, "Resistance", 1e-4, 1e4, this._resistance, 1, (c: Resistor, value: number): void => {
+      c._resistance = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   public render(fn?: (p: p5, colour: p5.Color, running: boolean) => void): void {

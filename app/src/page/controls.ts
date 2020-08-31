@@ -318,7 +318,7 @@ export class Controls {
       try {
         const c: Component = Page.control.createComponent(component, ...coords);
         Page.control.render();
-        c.openConfigPopup();
+        if (c.isConfigurable) c.openConfigPopup();
         return true;
       } catch (e) {
         // 'Harmless' ComponentError
@@ -513,7 +513,10 @@ export class Controls {
       if (c instanceof Components.Diode) other.push(["Direction", c.direction === Direction.Left ? "Left" : "Right"]);
       if (c instanceof Components.LightEmittingDiode) {
         const rgb: string = "rgb(" + c.getColour().join(", ") + ")";
-        other.push(["Colour", `< span style = 'background-color: ${rgb}' > hsb(${c.getColour(true).join(', ')}) < br > ${rgb} </span>`]);
+        other.push(["Colour", `<span style='background-color: ${rgb}'>hsb(${c.getColour(true).join(', ')})<br>${rgb}</span>`]);
+      }
+      if (c instanceof Components.Fuse) {
+        other.push(["Current", `${utils.roundTo(c.current, 1)} / ${c.maxCurrent} (${utils.roundTo(c.closeToBreak() * 100, 1)}%)`]);
       }
       if (c instanceof Components.Connector) {
         if (!c.isEnd) info.cResistance.innerHTML = "<abbr title='Resistance of connected circuits in parallel'>" + c.resistance + "</abbr>";

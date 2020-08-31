@@ -57,7 +57,7 @@ export default class ComponentInfo {
     html += `<p>${cinfo.about.join('<br>')}</p>`;
 
     // Action
-    html += `<p>&nbsp; &nbsp; <b>Actions</b><br>`;
+    html += `<p><b>Actions</b><br>`;
     html += `&nbsp; &bull; <b>Left-Click: </b>${cinfo.left == null ? ComponentInfo._htmlNull() : cinfo.left}<br>`;
     html += `&nbsp; &bull; <b>Right-Click: </b>${cinfo.right == null ? ComponentInfo._htmlNull() : cinfo.right}<br>`;
     html += `&nbsp; &bull; <b>Scroll: </b>${cinfo.scroll == null ? ComponentInfo._htmlNull() : cinfo.scroll}</p>`;

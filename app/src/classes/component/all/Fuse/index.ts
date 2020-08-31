@@ -3,6 +3,8 @@ import type Circuit from "classes/circuit";
 import p5 from "p5";
 import * as utils from 'assets/utils';
 import { MouseButton } from "models/enum";
+import Config from "assets/config";
+import Vars from "page/vars";
 
 /**
  * Fuse: Break if current through it is too much
@@ -17,6 +19,18 @@ export class Fuse extends Component {
     this._resistance = Component.LOW_RESISTANCE;
 
     this._maxCurrent = 10;
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Voltage
+    this.configOptions.push(Config.newNumberInput(false, "Max Current", 0.1, 25, this._maxCurrent, 0.1, (c: Fuse, value: number): void => {
+      c._maxCurrent = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   /**

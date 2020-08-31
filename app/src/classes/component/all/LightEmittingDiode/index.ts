@@ -6,6 +6,7 @@ import p5 from "p5";
 import { Direction } from "models/enum";
 import { IAdditionalComponentData, IComponentData } from "models/saveData";
 import ILEDData from "./interface";
+import Config from "assets/config";
 
 /**
  * Light Emitting Diode [LED]: diode, but emits light
@@ -24,6 +25,18 @@ export class LightEmittingDiode extends Diode {
     super(parentCircuit);
     this._hue = utils.randomInt(0, 259);
     this._lpw = 90; // between 80 - 100, (https://www.rapidtables.com/calc/light/how-watt-to-lumen.html)
+    this._isConfigurable = true;
+  }
+
+  protected _updateConfigStuff(clear: boolean = true): void {
+    if (clear) this.configOptions.length = 0;
+
+    // Hue
+    this.configOptions.push(Config.newNumberInput(true, "Hue", 0, 359, this._hue, 1, (c: LightEmittingDiode, value: number): void => {
+      c._hue = +value;
+    })(this));
+
+    super._updateConfigStuff(false);
   }
 
   public get hue(): number { return this._hue; }

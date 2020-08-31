@@ -47,7 +47,7 @@ export class Config {
    * @param onChange        Function triggered onChange
    */
   public static newNumberInput(slider: boolean, header: string, min: number, max: number, defaultValue?: number, step: number = 1, onChange?: (c: any, value: number) => void): (c: any) => IConfig {
-    defaultValue = defaultValue ?? (max - min) / 2;
+    if (defaultValue == undefined) defaultValue = (max - min) / 2;
     if (defaultValue < min || defaultValue > max) throw new RangeError(`NumberInput: default value cannot exceed range set by min and max`);
     step = step ?? 1;
 
@@ -79,6 +79,16 @@ export class Config {
 
       const td: HTMLTableDataCellElement = document.createElement("td");
       td.appendChild(input);
+
+      if (slider) {
+        const textEl: HTMLSpanElement = document.createElement("span");
+        if (defaultValue != undefined) textEl.innerText = defaultValue.toString();
+        td.appendChild(textEl);
+
+        input.addEventListener('input', (e: Event) => {
+          textEl.innerText = input.value;
+        });
+      }
 
       // <th />
       const th = document.createElement('th');

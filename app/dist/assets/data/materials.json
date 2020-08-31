@@ -154,7 +154,7 @@
   "colour": [67, 70, 75],
   "wire": true
 }, {
-  "name": "superConductor",
+  "name": "super_conductor",
   "resistance": 0,
   "colour": [250, 100, 150],
   "wire": false

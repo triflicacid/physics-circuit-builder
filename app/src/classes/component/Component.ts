@@ -36,6 +36,7 @@ var nextID: number = 0;
  * @property _maxCurrent    Maximum current we can handle
  * @property _blown         Is this component blown?
  * @property _voltage       Is this component emitting a fixed voltage (if not NaN, is a power source)
+ * @property _isConfigurable  Is this components configurable?
  *
  * @property resistance         Components' resistance
  * @property (readonly) voltage The voltage across the component
@@ -102,6 +103,7 @@ export class Component extends CircuitItem {
   protected _externalTemp: number; // External heat we are recieving
   protected _resistance: number = 0; // Resistance of component
   protected _current: number = 0; // Current through component
+  protected _isConfigurable: boolean = false;
 
   protected _lpw: number = NaN; // Lumens per watt (luminous components only). NaN = not luminous
   protected _maxCurrent: number = NaN; // Max current we can handle before blowing. NaN = not able to be blown
@@ -122,6 +124,7 @@ export class Component extends CircuitItem {
   }
 
   public get id(): number { return this._id; }
+  public get isConfigurable(): boolean { return this._isConfigurable; }
   public get inputs(): Wire[] { return [...this._inputs]; }
   public get outputs(): Wire[] { return [...this._outputs]; }
   public get lumensPerWatt(): number { return this._lpw; }
@@ -900,9 +903,10 @@ export class Component extends CircuitItem {
 
   /**
    * Update configPopup
+   * @param clear   Clear the configOptions array? Used in overrides, but not used here
    */
   protected _updateConfigStuff(clear: boolean = true): void {
-    if (this.configOptions.length === 0) {
+    if (!this._isConfigurable || this.configOptions.length === 0) {
       this.configPopup.htmlContent = null;
       this.configPopup.msg(this.constructor.name + " is not configurable.");
     } else {
