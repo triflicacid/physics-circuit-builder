@@ -53,7 +53,7 @@ export default async function (): Promise<void> {
   // Apple sliders
   let sliders: HTMLElement[] = utils.querySelectorAll('.appleSlider');
   for (let slider of sliders) {
-    if (slider.dataset.id === undefined) throw new NullError("<HTMLElement>.dataset", "Expected .appleSlider elements to have a dataset-id: " + slider);
+    if (slider.dataset.id === void 0) throw new NullError("<HTMLElement>.dataset", "Expected .appleSlider elements to have a dataset-id: " + slider);
     const id: string = slider.dataset.id;
     delete slider.dataset.id;
     slider.innerHTML = '<input class="toggle" id="' + id + '" type="checkbox" /><label id="control" class="control" for="' + id + '"></label><div class="atContainer"></div>';

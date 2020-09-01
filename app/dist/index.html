@@ -29,20 +29,19 @@
                 <!-- File Controls -->
                 <div class='mainnav menu-tab' tab-target='file'>
                     <span class='ifFileClosed'>
-                        <button class='btn' onclick='Page.file.openFilePopup.open();'>Open File</button>
+                        <button class='btn' data-action='open'>Open File</button>
                     </span>
                     <span class='ifFileOpen'>
-                        <button class='btn' onclick='Page.file.closeFilePopup.open();'>Close File</button>
+                        <button class='btn' data-action='close'>Close File</button>
                     </span>
-                    <!-- <button class='btn' onclick='Page.file.closeFile.openPopup();'>Close File</button> |&nbsp; -->
                     <span class='ifFileClosed'>
-                        <button class='btn' onclick='Page.file.new();'>New</button>
+                        <button class='btn' data-action='new'>New</button>
                     </span>
                     <span class='ifFileOpen'>
-                        <button class='btn green' onclick='Page.file.save();'>Save</button>
+                        <button class='btn green' data-action='save'>Save</button>
                     </span>
                     <span class='ifFileOpen'>
-                        <button class='btn red' onclick='Page.file.delete();'>Delete</button>
+                        <button class='btn red' data-action='delete'>Delete</button>
                     </span>
                 </div>
 

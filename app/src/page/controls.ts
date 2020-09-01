@@ -1,5 +1,6 @@
 import * as utils from 'assets/utils';
 import Page from './index';
+import File from './file';
 import CircuitItem from 'classes/circuitItem';
 import Control from 'classes/control';
 import Component from 'classes/component/Component';
@@ -13,7 +14,6 @@ import { ThermistorMode } from 'classes/component/all/Thermistor/index';
 import { IComponentInfo } from 'models/ComponentInfo';
 import Vars from './vars';
 import ComponentInfo from 'assets/componentInfo';
-import { Table } from 'p5';
 
 /**
  * Class for controling and manipulating controls in circuit.php
@@ -153,7 +153,7 @@ export class Controls {
           event.stopPropagation();
         });
 
-        if (textDestination != undefined) {
+        if (textDestination != void 0) {
           // When hover, show button with component name. Button redirects to help popup.
           a.addEventListener("mouseenter", (e: Event) => {
             const btn: HTMLButtonElement = document.createElement("button");
@@ -217,6 +217,38 @@ export class Controls {
         Controls.clickInsertComponentBody(event.clientX, event.clientY);
       }
     });
+
+    // File button actions
+    const buttons = <HTMLButtonElement[]>utils.querySelectorAll('.menu-tab[tab-target="file"] button[data-action]');
+    for (const button of buttons) {
+      let fn: Function | undefined = void 0;
+
+      switch (button.dataset.action) {
+        case 'open':
+          fn = () => File.openFilePopup.open();
+          break;
+        case 'close':
+          fn = () => File.closeFilePopup.open();
+          break;
+        case 'new':
+          fn = File.new;
+          break;
+        case 'save':
+          fn = File.save;
+          break;
+        case 'delete':
+          fn = File.delete;
+          break;
+      }
+
+      if (fn == null) {
+        throw new NullError(`Unknown data-action '${button.dataset.action}' where button is ${button} [error: no event handler]`);
+      } else {
+        button.addEventListener('click', function () {
+          if (fn != null) fn();
+        }, false);
+      }
+    }
   }
 
   /**
@@ -409,7 +441,7 @@ export class Controls {
   public static clickDeleteComponent(id: number, reanalyse: boolean = true): void {
     if (Page.control == null) return console.warn("Page.control is null... Cannot call clickDeleteComponent");
 
-    if (id === undefined && Controls.componentShowingInfo instanceof Component)
+    if (id === void 0 && Controls.componentShowingInfo instanceof Component)
       id = Controls.componentShowingInfo.id;
 
     if (typeof id === 'number') {

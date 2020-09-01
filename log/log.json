@@ -233,7 +233,8 @@
                 [
                     ["11:26", "Moved 'analyse' tab to a sidebar"],
                     ["18:34", "Shrank size of index.html trifold"],
-                    ["19:53", "Seperated dist/ into multiple files"]
+                    ["19:53", "Seperated dist/ into multiple files"],
+                    ["20:26", "Fixed issues with File tab"]
                 ]
             ]
         }
