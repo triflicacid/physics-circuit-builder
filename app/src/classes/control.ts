@@ -618,9 +618,6 @@ export class Control {
             }
             break;
           }
-          case "a":
-            Tab.select(Tab.analyse);
-            break;
           case 'e':
             Controls.showInfo.click();
             break;

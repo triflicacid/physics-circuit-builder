@@ -174,8 +174,6 @@ export class Controls {
 
     // Analysis tab HTML
     Controls._analyse = {
-      name: utils.getElementById("analyse-name"),
-
       analyseCircuit: utils.getElementById('analyse-circuit'),
       cName: utils.getElementById("analyse-c-name"),
       cResistance: utils.getElementById("analyse-c-resistance"),
@@ -193,6 +191,7 @@ export class Controls {
       cHelpButton: utils.getElementById("analyse-c-helpButton"),
 
       analyseWire: utils.getElementById('analyse-wire'),
+      wName: utils.getElementById('analyse-w-name'),
       wHasRes: utils.getElementById("analyse-w-hasRes"),
       wRes: utils.getElementById("analyse-w-res"),
       wLength: utils.getElementById("analyse-w-length"),
@@ -454,11 +453,9 @@ export class Controls {
 
     if (c instanceof Component) {
       Page.show(info.analyseCircuit);
-      // Tab text
-      info.name.innerText = c.toString();
 
       // "Component Info" table info
-      info.cName.innerHTML = c.toString() + ` (passable: ${utils.getHtmlBoolString(c.passable())})`;
+      info.cName.innerHTML = c.toString();
       info.cResistance.innerHTML = utils.numberFormat(c.resistance, 3);
       info.cVoltage.innerHTML = utils.numberFormat(c.voltage, 3);
       info.cPower.innerHTML = utils.numberFormat(c.power(), 3);
@@ -597,20 +594,36 @@ export class Controls {
 
     } else if (c instanceof Wire) {
       Page.show(info.analyseWire);
-      info.name.innerText = c.toString();
+      info.wName.innerText = c.toString();
 
-      info.wHasRes.innerHTML = '<input type="radio" name="analyse-w-hasRes-radio" onclick="Page.controls.componentShowingInfo._hasResistance = true; Page.controls.analyse(1);" ' + (c.hasResistance ? "checked " : "") + '/> <span style="color: green;">Yes</span>';
-      info.wHasRes.innerHTML += '<input type="radio" name="analyse-w-hasRes-radio" onclick="Page.controls.componentShowingInfo._hasResistance = false; Page.controls.analyse(1);" ' + (c.hasResistance ? "" : "checked ") + '/> <span style="color: crimson;">No</span>';
+      info.wHasRes.innerHTML = '<input type="radio" name="analyse-w-hasRes-radio" onclick="Page.controls.componentShowingInfo.hasResistance = true; Page.controls.reAnalyse();" ' + (c.hasResistance ? "checked " : "") + '/> <span style="color: green;">Yes</span>';
+      info.wHasRes.innerHTML += '<input type="radio" name="analyse-w-hasRes-radio" onclick="Page.controls.componentShowingInfo.hasResistance = false; Page.controls.reAnalyse();" ' + (c.hasResistance ? "" : "checked ") + '/> <span style="color: crimson;">No</span>';
 
-      info.wRes.innerText = utils.numberFormat(c.resistance, 4);
+      info.wRes.innerHTML = utils.numberFormat(c.resistance, 4);
 
       const length = c.length;
       info.wLength.innerText = `${utils.roundTo(length / Page.control.pixelsPerCm, 2)}cm (${Math.round(length)}px)`;
 
       if (c.hasResistance) {
-        const onclick = `Page.controls.componentShowingInfo.radiusPx(+this.value); document.getElementById("analyse-w-radius-text").innerText = utils.roundTo(Page.controls.componentShowingInfo.radiusCm(), 3) + "cm (" + utils.roundTo(Page.controls.componentShowingInfo.radiusPx(), 1) + "px)";`;
-        let html = `<input type='range' min='${Wire.MIN_RADIUS}' value='${c.radiusPx()}' step='0.1' max='${Wire.MAX_RADIUS}' oninput='${onclick}' onchange='Page.controls.analyse(1);' /> <span id='analyse-w-radius-text'>${utils.roundTo(c.radiusCm(), 3)}cm (${utils.roundTo(c.radiusPx(), 1)}px)</span>`;
-        info.wRadius.innerHTML = html;
+        const input: HTMLInputElement = document.createElement("input");
+        input.setAttribute('type', 'range');
+        input.setAttribute('min', Wire.MIN_RADIUS.toString());
+        input.setAttribute('max', Wire.MAX_RADIUS.toString());
+        input.setAttribute('value', c.radiusPx().toString());
+        input.setAttribute('step', '0.1');
+
+        const span: HTMLSpanElement = document.createElement('span');
+        span.innerText = `${utils.roundTo(c.radiusCm(), 3)}cm (${utils.roundTo(c.radiusPx(), 1)}px)`;
+
+        input.addEventListener('change', Controls.reAnalyse);
+        input.addEventListener('input', (e: Event) => {
+          c.radiusPx(+input.value);
+          span.innerText = `${utils.roundTo(c.radiusCm(), 3)}cm (${utils.roundTo(c.radiusPx(), 1)}px)`;
+        });
+
+        info.wRadius.innerHTML = '';
+        info.wRadius.appendChild(input);
+        info.wRadius.appendChild(span);
       } else {
         info.wRadius.innerText = utils.roundTo(1.5 / Page.control.pixelsPerCm, 3) + 'cm';
       }
@@ -630,7 +643,6 @@ export class Controls {
           info[prop].innerHTML = "";
         }
       }
-      info.name.innerText = "none";
     }
   }
 

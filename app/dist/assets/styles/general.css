@@ -297,3 +297,24 @@ table td.padLeft {
     color: red;
     cursor: pointer;
 }
+
+
+/* <main> Styling */
+main {
+    display: flex;
+    justify-content: flex-start;
+}
+
+main>section#canvas-section {
+    margin-left: auto;
+}
+
+main>section#analyse-section {
+    border: 1px solid black;
+    background: #ccc;
+    width: 20%;
+    min-width: 250px;
+    margin-left: auto;
+    text-align: center;
+    overflow-y: scroll;
+}

@@ -229,6 +229,9 @@
                 [],
                 [
                     ["19:40", "Added configuration to all components"]
+                ],
+                [
+                    ["11:26", "Moved 'analyse' tab to a sidebar"]
                 ]
             ]
         }

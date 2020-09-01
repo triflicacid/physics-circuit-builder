@@ -22,8 +22,6 @@
                     <li><a href="javascript:void(0);" data-target='file'>File</a></li>
                     <li><a href="javascript:void(0);" class='ifFileOpen' data-target='control'>Control</a></li>
                     <li><a href="javascript:void(0);" class='ifFileOpen' data-target='components'>Components</a></li>
-                    <li><a href="javascript:void(0);" class='ifFileOpen' data-target='analyse'>Analyse <i
-                                id='analyse-name'>none</i></a></li>
                     <!-- <li class="search"><input type="text"></input></li> -->
                 </ul>
             </nav>
@@ -200,141 +198,118 @@
                         </tr>
                     </table>
                 </div>
-                <!-- Analyse hovered component -->
-                <div class="mainnav menu-tab" tab-target="analyse">
-                    <div id='analyse-circuit'>
-                        <ul>
-                            <li>
-                                <table border='1'>
-                                    <tr>
-                                        <th colspan='6'>Component: <i id='analyse-c-name'></i> [<span class='del-btn'
-                                                title='Delete'
-                                                onclick='Page.controls.clickDeleteComponent();'>&times;</span>]</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Resistance</th>
-                                        <td><span id='analyse-c-resistance'></span>Ω</td>
-
-                                        <th>Current</th>
-                                        <td><span id='analyse-c-current'></span>A</td>
-
-                                        <th>Is Blown?</th>
-                                        <td id='analyse-c-isBlown'></td>
-                                    </tr>
-                                    <tr>
-                                        <th><abbr title="Potential difference across component.">Voltage</abbr></th>
-                                        <td><span id='analyse-c-voltage'></span>V</td>
-
-                                        <th>Max Current</th>
-                                        <td><span id='analyse-c-maxCurrent'></span>A</td>
-
-                                        <th>Is On?</th>
-                                        <td id='analyse-c-isOn'></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Power</th>
-                                        <td><span id='analyse-c-power'></span>W</td>
-
-                                        <th>Extern. Light.</th>
-                                        <td><span id='analyse-c-externLight'></span>lm</td>
-
-                                        <th>Extern. Temp.</th>
-                                        <td><span id='analyse-c-externTemp'></span>°C</td>
-                                    </tr>
-                                </table>
-                            </li>
-                            <li>
-                                <table border='1'>
-                                    <thead>
-                                        <tr>
-                                            <th colspan='10'>Additional Info</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id='analyse-c-other'></tbody>
-                                </table>
-                            </li>
-                            <li>
-                                <table border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>Options</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <button id="analyse-c-configButton">Configure</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <button id="analyse-c-helpButton">Help</button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </li>
-                            <li>
-                                <table border="1">
-                                    <thead>
-                                        <tr>
-                                            <th colspan='2'>Inputs</th>
-                                            <th colspan='2'>Outputs</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id='analyse-c-conns'></tbody>
-                                </table>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div id='analyse-wire'>
-                        <ul>
-                            <li>
-                                <table border='1'>
-                                    <thead>
-                                        <tr>
-                                            <th colspan='4'>Info</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th>Has Resistance? </th>
-                                            <td id='analyse-w-hasRes'></td>
-
-                                            <th>Length </th>
-                                            <td id='analyse-w-length'></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Resistance </th>
-                                            <td><span id='analyse-w-res'></span>Ω</td>
-
-                                            <th>Cross-Section Radius </th>
-                                            <td id='analyse-w-radius'></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Material </th>
-                                            <td id='analyse-w-material'></td>
-
-                                            <th>Volume </th>
-                                            <td><span id='analyse-w-volume'></span>cm³</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                        </ul>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- Main (canvas) -->
-        <main style='margin: 10px;'>
-            <center>
+        <!-- Main -->
+        <main style='margin-top: 10px;'>
+            <!-- Canvas -->
+            <section id='canvas-section'>
                 <div id='canvas-container'></div>
-            </center>
-            <br>
-            <span id='lastUpdate'></span>
+                <br>
+                <span id='lastUpdate'></span>
+            </section>
+
+            <!-- Analyse Info -->
+            <section id='analyse-section'>
+                <section id='analyse-circuit'>
+                    <h1><span id='analyse-c-name'></span> [<span class='del-btn' title='Delete'
+                            onclick='Page.controls.clickDeleteComponent();'>&times;</span>]</h1>
+                    <button id="analyse-c-configButton">Configure</button>
+                    <button id="analyse-c-helpButton">Help</button>
+                    <br><br>
+
+                    <table>
+                        <tr>
+                            <th>Resistance</th>
+                            <td><span id='analyse-c-resistance'></span>Ω</td>
+                        </tr>
+                        <tr>
+                            <th><abbr title="Potential difference across component.">Voltage</abbr></th>
+                            <td><span id='analyse-c-voltage'></span>V</td>
+                        </tr>
+                        <tr>
+                            <th>Current</th>
+                            <td><span id='analyse-c-current'></span>A</td>
+                        </tr>
+                        <tr>
+                            <th>Max Current</th>
+                            <td><span id='analyse-c-maxCurrent'></span>A</td>
+                        </tr>
+                        <tr>
+                            <th>Power</th>
+                            <td><span id='analyse-c-power'></span>W</td>
+                        </tr>
+
+                        <tr>
+                            <th>Is On?</th>
+                            <td id='analyse-c-isOn'></td>
+                        </tr>
+                        <tr>
+                            <th>Is Blown?</th>
+                            <td id='analyse-c-isBlown'></td>
+                        </tr>
+
+                        <tr>
+                            <th>Extern. Light.</th>
+                            <td><span id='analyse-c-externLight'></span>lm</td>
+                        </tr>
+                        <tr>
+                            <th>Extern. Temp.</th>
+                            <td><span id='analyse-c-externTemp'></span>°C</td>
+                        </tr>
+                    </table>
+
+                    <br>
+                    <table>
+                        <tbody id='analyse-c-other'></tbody>
+                    </table>
+
+                    <br>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th colspan='2'>Inputs</th>
+                                <th colspan='2'>Outputs</th>
+                            </tr>
+                        </thead>
+                        <tbody id='analyse-c-conns'></tbody>
+                    </table>
+                </section>
+
+                <section id='analyse-wire'>
+                    <h1><span id='analyse-w-name'></span></h1>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>Has Resistance? </th>
+                                <td id='analyse-w-hasRes'></td>
+                            </tr>
+                            <tr>
+                                <th>Length </th>
+                                <td id='analyse-w-length'></td>
+                            </tr>
+                            <tr>
+                                <th>Resistance </th>
+                                <td><span id='analyse-w-res'></span>Ω</td>
+                            </tr>
+                            <tr>
+                                <th>Cross-Section Radius </th>
+                                <td id='analyse-w-radius'></td>
+                            </tr>
+                            <tr>
+                                <th>Material </th>
+                                <td id='analyse-w-material'></td>
+                            </tr>
+                            <tr>
+                                <th>Volume </th>
+                                <td><span id='analyse-w-volume'></span>cm³</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
         </main>
     </div>
 

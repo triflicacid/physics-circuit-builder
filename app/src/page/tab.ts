@@ -4,7 +4,6 @@ import * as utils from 'assets/utils';
 export class Tab {
   public static readonly control: HTMLElement = utils.querySelector('.menu a[data-target="control"]');
   public static readonly components: HTMLElement = utils.querySelector('.menu a[data-target="components"]');
-  public static readonly analyse: HTMLElement = utils.querySelector('.menu a[data-target="analyse"]');
   public static readonly file: HTMLElement = utils.querySelector('a[data-target="file"]');
 
   /**
