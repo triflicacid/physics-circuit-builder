@@ -59,7 +59,7 @@ sort($keys);
         $data = $components->$key;
 
         echo "<component id='{$key}' data-name='{$data->name}'";
-        echo " data-tags='" . implode(" ", $data->tags) . "'";
+        echo " data-tags='" . ($data->tags == null ? "" : implode(" ", $data->tags)) . "'";
         echo ">";
 
         echo "<name>{$data->name}</name>";
@@ -76,7 +76,7 @@ sort($keys);
         if ($data->config != null) {
             echo "<p><b>Config</b><br>";
             foreach ($data->config as $config) {
-                echo "&nbsp; &bull; <b>{$config[0]}</b>: ${$config[1]}<br>";
+                echo "&nbsp; &bull; <b>{$config[0]}</b>: {$config[1]}<br>";
             }
             echo "</p>";
         }

@@ -213,6 +213,22 @@
                     ["14:53", "Integrated component help directly into application.", "Seperated bulky data out into seperate files. (materials and componentInfo)"],
                     ["19:15", "Integrated component help into circuit app.", "Hover over component and click 'Help' to view component info, or view omponent list under 'Components > Help'"],
                     ["19:52", "When inserting component, name flashes in button beneath image. Clicking the button shows help for that component."]
+                ],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [
+                    ["19:40", "Added configuration to all components"]
                 ]
             ]
         }
