@@ -9,7 +9,11 @@ View `app/dist/index.html` in the browser. The compiled output JavaScript is in 
 
 ## Building
 
-To build the project, `cd app/src`, then run `npm run build`. Everything will be compiled to `app/src/dist/bundle.js`.
+To build the project, `cd app/src`, then run `npm run build`.
+
+The compiled output files will be in `dist/scripts/*.js`.
+
+**The dist/ directory is the only folder required for this app to run**
 
 ## History
 
