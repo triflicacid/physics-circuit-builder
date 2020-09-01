@@ -274,15 +274,17 @@ export function capitalise(string: string): string {
 /**
  * Take string and nicify it
  * - e.g. 'variable resistor' -> 'Variable Resistor'
+ * - e.g. 'WireContainer' -> 'Wire Container'
  * @param  {String} str String to transform
  * @param  {String} joiner  What to join word array with
  * @return {String} output
  */
 export function nicifyString(str: string, joiner: string = ' '): string {
   str = str.toString();
-  str = str.replace(/_/g, ' ');
-  str = str.replace(/-/g, '');
-  str = str.replace(/\s{2,}/g, ' ');
+  str = str.replace(/_/g, ' '); // '_' -> ' '
+  str = str.replace(/-/g, ''); // '-' -> ''
+  str = str.replace(/\s{2,}/g, ' '); // '   ' -> ' '
+  str = str.replace(/(?<=[a-z])(?=[A-Z])/g, ' ');  // 'xW' -> 'x W'
 
   const words: string[] = str.split(/\s/g);
   for (let i: number = 0; i < words.length; i++) {
@@ -439,4 +441,14 @@ export function materialToOptionsArray(materials: IMaterialDef[]): { text: strin
   }
 
   return array;
+}
+
+// Create a "delete" button
+export function createDeleteButton(title: string | null, onClickHandler?: (e: Event) => void): HTMLSpanElement {
+  const delbtn: HTMLSpanElement = document.createElement('span');
+  delbtn.setAttribute('class', 'del-btn');
+  if (title != null) delbtn.setAttribute('title', title);
+  if (typeof onClickHandler === 'function') delbtn.addEventListener('click', onClickHandler);
+  delbtn.innerHTML = '&times;';
+  return delbtn;
 }

@@ -14,14 +14,14 @@ import { IComponentInfoCollection } from 'models/ComponentInfo';
 export default async function (): Promise<void> {
   console.group("Setting Up...");
 
-  (<any>window).Page = Page;
+  // (<any>window).Page = Page;
 
 
   // Tab Menu
   // let tabs: NodeListOf<HTMLElement> = document.querySelectorAll('.menu li a');
   let tabs: HTMLElement[] = utils.querySelectorAll('.menu li a');
   for (let tab of tabs) {
-    tab.onclick = () => Tab.select(tab);
+    tab.addEventListener('click', () => Tab.select(tab));
   }
 
   // Tab Contents
@@ -38,9 +38,9 @@ export default async function (): Promise<void> {
   File.updateList();
 
   // When click on popupCOver, remove all popups
-  utils.getElementById('popupCover').onclick = function () {
+  utils.getElementById('popupCover').addEventListener('click', () => {
     Page.openPopups.forEach((p: Popup) => p.close());
-  };
+  });
 
   // Hide all 'ifFileOpen' things
   let ifo: HTMLElement[] = utils.querySelectorAll('.ifFileOpen');
@@ -69,8 +69,6 @@ export default async function (): Promise<void> {
 
   // Setup Controls
   Controls.init();
-  Page.hide(Controls._analyse.analyseCircuit);
-  Page.hide(Controls._analyse.analyseWire);
 
   {
     const path: string = './assets/data/materials.json';

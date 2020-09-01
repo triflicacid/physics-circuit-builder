@@ -231,7 +231,9 @@
                     ["19:40", "Added configuration to all components"]
                 ],
                 [
-                    ["11:26", "Moved 'analyse' tab to a sidebar"]
+                    ["11:26", "Moved 'analyse' tab to a sidebar"],
+                    ["18:34", "Shrank size of index.html trifold"],
+                    ["19:53", "Seperated dist/ into multiple files"]
                 ]
             ]
         }

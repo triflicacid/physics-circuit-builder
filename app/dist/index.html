@@ -121,82 +121,7 @@
 
                 <!-- Insert component "buttons" -->
                 <div class="mainnav menu-tab" tab-target="components">
-                    <table>
-                        <tr>
-                            <td></td>
 
-                            <!-- <th><a target='_blank' href='components.php#power'>Power Sources</a></th> -->
-                            <td class='padLeft'><a data-component="Cell"></a></td>
-                            <td><a data-component="Battery"></a></td>
-                            <td><a data-component="DC Power Supply"></a></td>
-                            <td><a data-component="AC Power Supply"></a></td>
-
-                            <!-- <th><a target='_blank' href='components.php#analytical'>Measuring Components</a></th> -->
-                            <td class='padLeft'><a data-component="Ammeter"></a></td>
-                            <td><a data-component="Voltmeter"></a></td>
-                            <td><a data-component="Thermometer"></a></td>
-                            <td><a data-component="Lightmeter"></a></td>
-                            <!-- <td><a data-component="Wattmeter"></a></td> -->
-
-                            <!-- <th><a target='_blank' href='components.php#output'>Output Components</a></th> -->
-                            <td class='padLeft'><a data-component="Bulb"></a></td>
-                            <td><a data-component="LED"></a></td>
-                            <td><a data-component="Buzzer"></a></td>
-                            <td><a data-component="Heater"></a></td>
-                            <td><a data-component="Motor"></a></td>
-
-                            <!-- <th><a target='_blank' href='components.php#flow'>Flow Managing</a></th> -->
-                            <td class='padLeft'><a data-component="Switch"></a></td>
-                            <td><a data-component="Two-Way Switch"></a></td>
-                            <td><a data-component="Connector"></a></td>
-                            <td><a data-component="Diode"></a></td>
-                            <td><a data-component="Fuse"></a></td>
-                            <td><a data-component="Push Switch"></a></td>
-                            <td><a data-component="Touch Switch"></a></td>
-                            <td><a data-component="Capacitor"></a></td>
-
-                            <!-- <th><a target='_blank' href='components.php#resistors'>Resistors</a></th> -->
-                            <td class='padLeft'><a data-component="Resistor"></a></td>
-                            <td><a data-component="Variable Resistor"></a></td>
-                            <td><a data-component="Light-Dependant Resistor"></a></td>
-                            <td><a data-component="Thermistor"></a></td>
-                            <td><a data-component="Wire Container"></a></td>
-                            <td><a data-component="Material Container"></a></td>
-                        </tr>
-                        <tr class="empty">
-                            <td>
-                                <button id='component-helpButton'>Help</button>
-                            </td>
-
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </section>
@@ -206,109 +131,11 @@
             <!-- Canvas -->
             <section id='canvas-section'>
                 <div id='canvas-container'></div>
-                <br>
-                <span id='lastUpdate'></span>
             </section>
 
             <!-- Analyse Info -->
             <section id='analyse-section'>
-                <section id='analyse-circuit'>
-                    <h1><span id='analyse-c-name'></span> [<span class='del-btn' title='Delete'
-                            onclick='Page.controls.clickDeleteComponent();'>&times;</span>]</h1>
-                    <button id="analyse-c-configButton">Configure</button>
-                    <button id="analyse-c-helpButton">Help</button>
-                    <br><br>
 
-                    <table>
-                        <tr>
-                            <th>Resistance</th>
-                            <td><span id='analyse-c-resistance'></span>Ω</td>
-                        </tr>
-                        <tr>
-                            <th><abbr title="Potential difference across component.">Voltage</abbr></th>
-                            <td><span id='analyse-c-voltage'></span>V</td>
-                        </tr>
-                        <tr>
-                            <th>Current</th>
-                            <td><span id='analyse-c-current'></span>A</td>
-                        </tr>
-                        <tr>
-                            <th>Max Current</th>
-                            <td><span id='analyse-c-maxCurrent'></span>A</td>
-                        </tr>
-                        <tr>
-                            <th>Power</th>
-                            <td><span id='analyse-c-power'></span>W</td>
-                        </tr>
-
-                        <tr>
-                            <th>Is On?</th>
-                            <td id='analyse-c-isOn'></td>
-                        </tr>
-                        <tr>
-                            <th>Is Blown?</th>
-                            <td id='analyse-c-isBlown'></td>
-                        </tr>
-
-                        <tr>
-                            <th>Extern. Light.</th>
-                            <td><span id='analyse-c-externLight'></span>lm</td>
-                        </tr>
-                        <tr>
-                            <th>Extern. Temp.</th>
-                            <td><span id='analyse-c-externTemp'></span>°C</td>
-                        </tr>
-                    </table>
-
-                    <br>
-                    <table>
-                        <tbody id='analyse-c-other'></tbody>
-                    </table>
-
-                    <br>
-                    <table border="1">
-                        <thead>
-                            <tr>
-                                <th colspan='2'>Inputs</th>
-                                <th colspan='2'>Outputs</th>
-                            </tr>
-                        </thead>
-                        <tbody id='analyse-c-conns'></tbody>
-                    </table>
-                </section>
-
-                <section id='analyse-wire'>
-                    <h1><span id='analyse-w-name'></span></h1>
-
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Has Resistance? </th>
-                                <td id='analyse-w-hasRes'></td>
-                            </tr>
-                            <tr>
-                                <th>Length </th>
-                                <td id='analyse-w-length'></td>
-                            </tr>
-                            <tr>
-                                <th>Resistance </th>
-                                <td><span id='analyse-w-res'></span>Ω</td>
-                            </tr>
-                            <tr>
-                                <th>Cross-Section Radius </th>
-                                <td id='analyse-w-radius'></td>
-                            </tr>
-                            <tr>
-                                <th>Material </th>
-                                <td id='analyse-w-material'></td>
-                            </tr>
-                            <tr>
-                                <th>Volume </th>
-                                <td><span id='analyse-w-volume'></span>cm³</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
             </section>
         </main>
     </div>
@@ -318,7 +145,11 @@
         <div id='popupCover'></div>
     </div>
 
-    <script src="./bundle.js" type="module" charset="utf-8"></script>
+    <script src="./scripts/npm.p5.js" type="module" charset="utf-8"></script>
+    <script src="./scripts/npm.webpack.js" type="module" charset="utf-8"></script>
+    <script src="./scripts/main.js" type="module" charset="utf-8"></script>
+    <script src="./scripts/runtime.js" type="module" charset="utf-8"></script>
+    <!-- <script src="./bundle.js" type="module" charset="utf-8"></script> -->
 </body>
 
 </html>
