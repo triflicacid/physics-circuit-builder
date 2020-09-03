@@ -239,7 +239,8 @@
                 [],
                 [
                     ["18:23", "Nicened up 'Control' tab. Moved advanced options to popup."],
-                    ["20:02", "Added GCSE checkbox to Components tab - view only GCSE components."]
+                    ["20:02", "Added GCSE checkbox to Components tab - view only GCSE components."],
+                    ["20:15", "Changed to GCSE slider which also controls analysis info for components/wires"]
                 ]
             ]
         }

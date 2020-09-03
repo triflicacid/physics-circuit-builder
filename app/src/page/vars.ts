@@ -13,6 +13,9 @@ export class Vars {
     { text: '6V', value: 6 },
     { text: '9V', value: 9 },
   ];
+
+  // GCSE mode?
+  public static gcseMode: boolean = true;
 }
 
 export default Vars;
