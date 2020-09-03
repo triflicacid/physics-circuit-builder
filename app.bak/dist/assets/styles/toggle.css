@@ -1,0 +1,43 @@
+.appleSlider {
+    transform: translateX(-50%);
+}
+
+.appleSlider .toggle {
+    display: none;
+}
+
+/* .appleSlider .toggle:checked~.atContainer { */
+.appleSlider.isChecked .atContainer {
+    background: #2ecc71;
+    border: 1px solid #2ecc71;
+    transition: 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+/* .appleSlider .toggle:checked~.control { */
+.appleSlider.isChecked .control {
+    transform: translate(30px);
+    transition: 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.appleSlider .control {
+    background: white;
+    border-radius: 40px;
+    display: block;
+    height: 34px;
+    margin-left: 4px;
+    position: relative;
+    transition: 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+    width: 34px;
+    z-index: 2;
+}
+
+.appleSlider .atContainer {
+    background: #bdc3c7;
+    border-radius: 40px;
+    border: 1px solid #bdc3c7;
+    height: 40px;
+    position: relative;
+    transform: translateY(-38px);
+    transition: 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+    width: 70px;
+}

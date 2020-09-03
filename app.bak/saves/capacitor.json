@@ -1,0 +1,112 @@
+{
+  "width": 800,
+  "height": 800,
+  "components": [{
+    "type": "Cell",
+    "pos": [83, 292.13194274902344],
+    "data": {
+      "voltage": 5
+    },
+    "conns": [{
+      "index": 1,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Switch",
+    "pos": [199, 299.13194274902344],
+    "data": {
+      "state": 1
+    },
+    "conns": [{
+      "index": 2,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Connector",
+    "pos": [329, 304.13194274902344],
+    "conns": [{
+      "index": 3,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }, {
+      "index": 6,
+      "path": [
+        [487, 303.79859924316406]
+      ],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Resistor",
+    "pos": [335, 376.13194274902344],
+    "data": {
+      "resistance": 1000,
+      "us": 0
+    },
+    "conns": [{
+      "index": 4,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Capacitor",
+    "pos": [377, 460.13194274902344],
+    "data": {
+      "capacitance": 2200,
+      "target": 5,
+      "voltage": 5
+    },
+    "conns": [{
+      "index": 5,
+      "path": [],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Connector",
+    "pos": [320, 554.1319427490234],
+    "conns": [{
+      "index": 0,
+      "path": [
+        [33, 552.4652709960938],
+        [32, 290.46527099609375]
+      ],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }, {
+    "type": "Bulb",
+    "pos": [512, 412.13194274902344],
+    "data": {
+      "oldSymbol": 0,
+      "wattage": 12.5,
+      "maxCurrent": 5,
+      "lpw": 15
+    },
+    "conns": [{
+      "index": 5,
+      "path": [
+        [539, 551.7985992431641]
+      ],
+      "hasRes": false,
+      "material": 8,
+      "r": 1.5
+    }]
+  }],
+  "pxcm": 1,
+  "temp": 20,
+  "light": 0
+}

@@ -1,0 +1,74 @@
+{
+    "width": 1000,
+    "height": 800,
+    "components": [
+    {
+        "type": "Cell",
+        "pos": [100, 300],
+        "data":
+        {
+            "maxCurrent": 5,
+            "voltage": 1.5,
+            "dir": 0
+        },
+        "conns": [
+        {
+            "index": 0,
+            "path": []
+        }],
+        "voltage": 1.5
+    },
+    {
+        "type": "Switch",
+        "pos": [300, 300],
+        "data":
+        {
+            "maxCurrent": null,
+            "state": 0
+        },
+        "conns": [
+        {
+            "index": 1,
+            "path": []
+        }]
+    },
+    {
+        "type": "VariableResistor",
+        "pos": [500, 300],
+        "data":
+        {
+            "maxCurrent": null,
+            "resistance": 1,
+            "american": false,
+            "min": 0,
+            "max": 1000
+        },
+        "conns": [
+        {
+            "index": 2,
+            "path": []
+        }]
+    },
+    {
+        "type": "Bulb",
+        "pos": [700, 300],
+        "data":
+        {
+            "maxCurrent": 5,
+            "resistance": 2,
+            "oldSymbol": false,
+            "wattage": 1,
+            "lpw": 15
+        },
+        "conns": [
+        {
+            "index": 3,
+            "path": [
+                [770, 300],
+                [770, 400],
+                [30, 400],
+                [30, 300]
+            ]
+        }]
+    }]
+}
