@@ -6,6 +6,6 @@
 /.vscode/*
 
 # Ignore node_modules
-node_modules/*
+/node_modules/*
 
 /app.bak/*
