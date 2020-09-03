@@ -244,6 +244,14 @@
                     ["20:39", "Option to remove wire from analyse sidebar"]
                 ]
             ]
+        }, {
+            "started": "03/09/2020",
+            "name": "Latest",
+            "releases": [
+                [
+                    ["21:30", "Merged indev to master branch"]
+                ]
+            ]
         }
     ]
 }

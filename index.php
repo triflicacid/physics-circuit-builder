@@ -22,7 +22,7 @@ define('CURRENT_VER', log_latest_version());
         <h3>Circuit</h3>
         <a target="_blank" href="app/dist/">Latest</a>
         <br><br>
-        <i>For older versions, see the <a target="_blank" href="https://github.com/ruben4447/physics-circuit-builder">GitHub repo</a></i>
+        <i><a target="_blank" href="https://github.com/ruben4447/physics-circuit-builder">GitHub repo</a></i>
         <h3>Other</h3>
         <a href="log/">Release Log</a><br>
         <a href="ideas.php">Upcoming Ideas</a><br>
