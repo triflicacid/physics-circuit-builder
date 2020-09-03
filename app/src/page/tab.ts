@@ -24,14 +24,18 @@ export class Tab {
     }
 
     let target: HTMLElement | null = document.querySelector("[tab-target='" + tab.dataset.target + "']");
-    if (target) {
+    if (target == null) {
+      throw new NullError(`tab-target="${tab.dataset.target}" does not exist: invalid tab.`);
+    } else {
       if (wasOpen) {
         target.classList.remove("open");
-        target.setAttribute("hidden", "hidden");
+        // target.setAttribute("hidden", "hidden");
+        target.hidden = true;
       } else {
         tab.classList.add("open");
         target.classList.add("open");
-        target.removeAttribute("hidden");
+        // target.removeAttribute("hidden");
+        target.hidden = false;
       }
     }
   }

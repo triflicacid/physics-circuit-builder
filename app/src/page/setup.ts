@@ -12,20 +12,16 @@ import Wire from 'classes/wire';
 import { IComponentInfoCollection } from 'models/ComponentInfo';
 
 export default async function (): Promise<void> {
-  console.group("Setting Up...");
-
-  // (<any>window).Page = Page;
+  (<any>window).Page = Page;
 
 
   // Tab Menu
-  // let tabs: NodeListOf<HTMLElement> = document.querySelectorAll('.menu li a');
   let tabs: HTMLElement[] = utils.querySelectorAll('.menu li a');
   for (let tab of tabs) {
     tab.addEventListener('click', () => Tab.select(tab));
   }
 
   // Tab Contents
-  // tabs = document.querySelectorAll('.menu-tabs .menu-tab');
   tabs = utils.querySelectorAll('.menu-tabs .menu-tab');
   for (let tab of tabs) {
     tab.setAttribute('hidden', 'hidden');
@@ -67,9 +63,6 @@ export default async function (): Promise<void> {
     }
   }
 
-  // Setup Controls
-  Controls.init();
-
   {
     const path: string = './assets/data/materials.json';
     console.log("Fetching materials (" + path + ")...");
@@ -96,6 +89,9 @@ export default async function (): Promise<void> {
     Vars.componentInfo = <IComponentInfoCollection>utils.sortObject(Vars.componentInfo);
   }
 
-  console.groupEnd();
+  // Setup Controls
+  Controls.init();
+
   Page.isLoaded = true;
+
 };

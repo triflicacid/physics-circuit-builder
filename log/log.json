@@ -238,7 +238,8 @@
                 ],
                 [],
                 [
-                    ["18:23", "Nicened up 'Control' tab. Moved advanced options to popup."]
+                    ["18:23", "Nicened up 'Control' tab. Moved advanced options to popup."],
+                    ["20:02", "Added GCSE checkbox to Components tab - view only GCSE components."]
                 ]
             ]
         }

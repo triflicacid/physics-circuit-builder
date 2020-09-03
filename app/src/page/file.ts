@@ -22,7 +22,10 @@ export class File {
     File.files = list;
 
     // Update popup
-    File.openFilePopup.msg("<div class='list'>" + File.fileList() + "</div>");
+    const div: HTMLDivElement = document.createElement('div');
+    div.classList.add('list');
+    div.appendChild(File.fileList());
+    File.openFilePopup.htmlContent = div;
 
     return File.files;
   }
@@ -66,13 +69,29 @@ export class File {
    * Get fileList HTML
    * @return {String}
    */
-  public static fileList(): string {
-    let html: string = "<table>";
-    File.files.forEach((file) =>
-      (html += `<tr><td><span class='file-icon'>&#x1f5ce;</span> <span class='link' onclick='Page.file.load("${file}");'>${file}</span></td></tr>`)
-    );
-    html += "</table>";
-    return html;
+  public static fileList(): HTMLTableElement {
+    const table = document.createElement('table');
+
+    File.files.forEach((file) => {
+      const row: HTMLTableRowElement = document.createElement('tr');
+      table.appendChild(row);
+
+      const cell: HTMLTableCellElement = document.createElement('td');
+      row.appendChild(cell);
+
+      let span: HTMLSpanElement = document.createElement('span');
+      cell.appendChild(span);
+      span.classList.add('file-icon');
+      span.innerHTML = "&#x1f5ce; ";
+
+      span = document.createElement('span');
+      cell.appendChild(span);
+      span.classList.add('link');
+      span.innerText = file;
+      span.addEventListener("click", () => File.load(file));
+    });
+
+    return table;
   }
 
   /**

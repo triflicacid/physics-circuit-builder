@@ -204,6 +204,9 @@ export class Controls {
        */
       function createTableData(first: boolean, componentName: string, textDestination?: HTMLElement): HTMLTableDataCellElement {
         const td: HTMLTableDataCellElement = document.createElement('td');
+        const klassName = utils.toClassName(componentName);
+        const data = Vars.componentInfo[klassName];
+
         if (first) {
           td.setAttribute('class', 'padLeft');
         }
@@ -214,8 +217,10 @@ export class Controls {
 
         const img: HTMLImageElement = document.createElement("img");
         img.dataset.component = componentName;
-        img.src = "assets/images/" + utils.toClassName(componentName) + ".png";
+        img.src = "assets/images/" + klassName + ".png";
         img.setAttribute("click", utils.capitalise(componentName));
+        img.setAttribute('title', data.name);
+        if (data.tags != null) img.setAttribute('data-gcse', (data.tags.indexOf('GCSE') != -1).toString());
         a.appendChild(img);
 
         a.addEventListener("click", (event: Event): void => {
@@ -229,7 +234,7 @@ export class Controls {
           a.addEventListener("mouseenter", (e: Event) => {
             const btn: HTMLButtonElement = document.createElement("button");
             btn.innerHTML = `<small>${componentName}</small>`;
-            btn.addEventListener("click", () => Controls.componentHelp(utils.toClassName(componentName)));
+            btn.addEventListener("click", () => Controls.componentHelp(klassName));
             textDestination.appendChild(btn);
           });
           a.addEventListener("mouseleave", (e: Event) => {
@@ -244,26 +249,49 @@ export class Controls {
       }
 
       const insertComponentNames: string[][] = [
-        ["Cell", "Battery", "DC Power Supply", "AC Power Supply"],
+        ["Cell", /*"Battery",*/ "DC Power Supply", "AC Power Supply"],
         ["Ammeter", "Voltmeter", "Thermometer", "Lightmeter"],
-        ["Bulb", "LED", "Buzzer", "Heater", "Motor"],
+        ["Bulb", "Light Emitting Diode", "Buzzer", "Heater", "Motor"],
         ["Switch", "Two-Way Switch", "Connector", "Diode", "Fuse", "Push Switch", "Touch Switch", "Capacitor"],
         ["Resistor", "Variable Resistor", "Light-Dependant Resistor", "Thermistor", "Wire Container", "Material Container"],
       ];
 
       const table = document.createElement('table');
+      let gcseCheckbox: HTMLInputElement;
 
       // First row
       const rows: HTMLTableRowElement[] = (function () {
         const rows: HTMLTableRowElement[] = [document.createElement('tr'), document.createElement('tr')];
 
-        rows[0].appendChild(document.createElement('td'));
+        // "GCSE" components only?
+        rows[0].appendChild<HTMLTableDataCellElement>((function () {
+          const dataCell = document.createElement('td');
+          dataCell.insertAdjacentHTML('beforeend', '<abbr title=\'GCSE components only?\'><b>GCSE </b></abbr>');
+
+          gcseCheckbox = document.createElement('input');
+          dataCell.appendChild(gcseCheckbox);
+          gcseCheckbox.setAttribute('type', 'checkbox');
+
+          gcseCheckbox.addEventListener('click', () => {
+            const children: HTMLCollection = rows[0].children;
+            for (let i = 1; i < children.length; i++) {
+              const anchor: HTMLAnchorElement = <HTMLAnchorElement>children[i].firstChild;
+              const img: HTMLImageElement = <HTMLImageElement>anchor.firstChild;
+              if (img.dataset.gcse == 'false') anchor.hidden = gcseCheckbox.checked;
+            }
+          });
+
+          return dataCell;
+        })());
+
         // Button : General Help
-        rows[1].appendChild<HTMLButtonElement>((function () {
+        rows[1].appendChild<HTMLTableDataCellElement>((function () {
+          const dataCell = document.createElement('td');
           const btn: HTMLButtonElement = document.createElement('button');
+          dataCell.appendChild(btn);
           btn.innerText = 'Help';
           btn.addEventListener("click", () => Controls.helpWindow.open());
-          return btn;
+          return dataCell;
         })());
 
         for (const group of insertComponentNames) {
@@ -278,6 +306,8 @@ export class Controls {
         return rows;
       })();
       for (const row of rows) table.appendChild(row);
+
+      gcseCheckbox.click();
 
       return table;
     })());
@@ -481,6 +511,8 @@ export class Controls {
     for (let el of els) Page.show(<HTMLElement>el);
 
     Tab.file.innerText = "File";
+    Tab.hide(Tab.control);
+    Tab.hide(Tab.components);
   }
 
   /**

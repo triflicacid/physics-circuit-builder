@@ -319,12 +319,12 @@ main>section#analyse-section {
     overflow-y: scroll;
 }
 
-.mainnav.menu-tab[tab-target="control"] {
+.mainnav.menu-tab[tab-target="control"]>div {
     display: flex;
     justify-content: flex-start;
     text-align: center;
 }
 
-.mainnav.menu-tab[tab-target="control"]>div {
+.mainnav.menu-tab[tab-target="control"]>div>div {
     margin: 15px;
 }
