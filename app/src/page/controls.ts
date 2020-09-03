@@ -31,36 +31,131 @@ export class Controls {
   public static lightText: HTMLSpanElement; // Show value of light
   public static temperatureSlider: HTMLInputElement; // Slider for adjusting temperature value
   public static temperatureText: HTMLSpanElement; // Show value of temperature
-  public static pixelMetreRange: HTMLInputElement; // Slider for adjusting px:cm value
-  public static pixelMetreText: HTMLSpanElement; // Show value of px:cm
+  public static pixelMetreRange: HTMLInputElement; // px per cm range (extra options popup)
+  public static pixelMetreText: HTMLSpanElement; // px per cm range TEXT (extra options popup)
 
   public static showInfo: HTMLInputElement; // Slider - are we showing additional info?
-  public static isDebug: HTMLInputElement; // Slider - are we in debug mode?
-  public static displayMode: HTMLSelectElement; // Select - how are we displaying the circuit?
   public static wireCreation: HTMLInputElement; // Slider - allow creation of wires?
-  public static USMode: HTMLInputElement; // Slider - US mode (change component style) ?
 
   // Sidebar element
   public static readonly analyseSidebar: HTMLElement = utils.getElementById('analyse-section');
 
   public static readonly helpWindow: ComponentInfo = new ComponentInfo();
+  public static readonly advancedControlsPopup: Popup = (function () {
+    const popup: Popup = new Popup("More").autoDelete(false);
+
+    const table = document.createElement('table');
+    table.appendChild<HTMLTableRowElement>((function () {
+      const row = document.createElement('tr');
+
+      const th = document.createElement('th');
+      th.innerText = "Debug";
+      row.appendChild(th);
+
+      row.appendChild<HTMLTableDataCellElement>((function () {
+        const dataCell = document.createElement('td');
+
+        const slider: HTMLSpanElement = utils.createAppleSlider('control-debug', (e: Event, checked: boolean) => {
+          if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'isDebug'");
+          Page.control.debug = checked;
+        });
+        dataCell.appendChild(slider);
+
+        return dataCell;
+      })());
+
+      return row;
+    })());
+    table.appendChild<HTMLTableRowElement>((function () {
+      const row = document.createElement('tr');
+
+      const th = document.createElement('th');
+      th.innerText = "Pixels per Cm";
+      row.appendChild(th);
+
+      row.appendChild<HTMLTableDataCellElement>((function () {
+        const dataCell = document.createElement('td');
+
+        const range = document.createElement('input');
+        Controls.pixelMetreRange = range;
+        range.setAttribute('type', 'range');
+        range.setAttribute('min', '0.001');
+        range.setAttribute('step', '0.001');
+        range.setAttribute('max', '2.5');
+        range.setAttribute('value', '1');
+        range.addEventListener("input", (event: Event): void => {
+          if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'input' on 'pixelMetreRange'");
+
+          Page.control.pixelsPerCm = +range.value;
+          pxPerCm.innerText = range.value + " px/cm";
+        });
+        dataCell.appendChild(range);
+
+        const pxPerCm = document.createElement('span');
+        Controls.pixelMetreText = pxPerCm;
+        pxPerCm.innerText = range.getAttribute('value') + " px/cm";
+        dataCell.appendChild(pxPerCm);
+
+        return dataCell;
+      })());
+
+      return row;
+    })());
+    table.appendChild<HTMLTableRowElement>((function () {
+      const row = document.createElement('tr');
+
+      const th = document.createElement('th');
+      th.innerText = 'Display Mode';
+      row.appendChild(th);
+
+      row.appendChild<HTMLTableDataCellElement>((function () {
+        const dataCell = document.createElement('td');
+
+        const select: HTMLSelectElement = document.createElement('select');
+        dataCell.appendChild(select);
+
+        let option: HTMLOptionElement = document.createElement('option');
+        option.setAttribute('value', '0');
+        option.innerText = 'Normal';
+        option.setAttribute('selected', 'selected');
+        select.appendChild(option);
+
+        option = document.createElement('option');
+        option.setAttribute('value', '1');
+        option.innerText = 'Light';
+        select.appendChild(option);
+
+        option = document.createElement('option');
+        option.setAttribute('value', '2');
+        option.innerText = 'Heat';
+        select.appendChild(option);
+
+        select.addEventListener("change", (event: Event): void => {
+          if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'change' on select menu 'displayMode'");
+          Page.control.mode = +select.value;
+        });
+
+        return dataCell;
+      })());
+
+      return row;
+    })());
+
+    popup.htmlContent = table;
+    return popup;
+  })();
 
   /**
    * Initiate all controls
    */
   public static init(): void {
     Controls.showInfo = <HTMLInputElement>utils.getElementById("control-showInfo");
-    Controls.isDebug = <HTMLInputElement>utils.getElementById("control-debug");
-    Controls.displayMode = <HTMLSelectElement>utils.getElementById("control-displayMode");
     Controls.wireCreation = <HTMLInputElement>utils.getElementById("control-wireCreation");
-    Controls.USMode = <HTMLInputElement>utils.getElementById("control-US");
 
     Controls.lightSlider = <HTMLInputElement>utils.getElementById("control-light-range");
     Controls.lightText = <HTMLSpanElement>utils.getElementById("control-light-text");
     Controls.temperatureSlider = <HTMLInputElement>utils.getElementById("control-temp-range");
     Controls.temperatureText = <HTMLSpanElement>utils.getElementById("control-temp-text");
-    Controls.pixelMetreRange = <HTMLInputElement>utils.getElementById("control-pxm-range");
-    Controls.pixelMetreText = <HTMLSpanElement>utils.getElementById("control-pxm-text");
 
     Controls.lightSlider.addEventListener("input", (event: Event): void => {
       if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'input' on 'lightSlider'");
@@ -78,33 +173,11 @@ export class Controls {
       Controls.temperatureText.innerText = target.value;
     });
 
-    Controls.pixelMetreRange.addEventListener("input", (event: Event): void => {
-      if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'input' on 'pixelMetreRange'");
-
-      const target: HTMLInputElement = <HTMLInputElement>event.target;
-      Page.control.pixelsPerCm = +target.value;
-      Controls.pixelMetreText.innerText = target.value;
-    });
-
     Controls.showInfo.addEventListener("click", (event: Event): void => {
       if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'showInfo'");
 
       const target: HTMLInputElement = <HTMLInputElement>event.target;
       Page.control.showInfo = target.checked;
-    });
-
-    Controls.isDebug.addEventListener("click", (event: Event): void => {
-      if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'isDebug'");
-
-      const target: HTMLInputElement = <HTMLInputElement>event.target;
-      Page.control.debug = target.checked;
-    });
-
-    Controls.displayMode.addEventListener("change", (event: Event): void => {
-      if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'change' on select menu 'displayMode'");
-
-      const target: HTMLSelectElement = <HTMLSelectElement>event.target;
-      Page.control.mode = +target.value;
     });
 
     Controls.wireCreation.addEventListener("click", (event: Event): void => {
@@ -116,11 +189,9 @@ export class Controls {
       Page.control.enableCreateWire = target.checked;
     });
 
-    Controls.USMode.addEventListener("click", (event: Event): void => {
-      if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'USMode'");
-
-      const target: HTMLInputElement = <HTMLInputElement>event.target;
-      Page.control.american(target.checked);
+    // "Advanced" popup
+    utils.getElementById('control-advancedBtn').addEventListener('click', (e: Event) => {
+      Controls.advancedControlsPopup.open();
     });
 
     // Components button
@@ -308,7 +379,6 @@ export class Controls {
 
     if (Page.control.showInfo) Controls.showInfo.click();
     if (Page.control.enableCreateWire) Controls.wireCreation.click();
-    if (Page.control.debug) Controls.isDebug.click();
   }
 
   /**

@@ -245,19 +245,9 @@ export class Wire extends CircuitItem {
    */
   public remove() {
     // Remove inputs' connection to output
-    // let index = this._input._outputs.indexOf(this);
-    // if (index !== -1) {
-    //   this._input._outputs.splice(index, 1);
-    //   this._input._outputCount--;
-    // }
     this.input.removeWire(this, "output");
 
     // Remove outputs' connection from input
-    // index = this._output._inputs.indexOf(this);
-    // if (index !== -1) {
-    //   this._output._inputs.splice(index, 1);
-    //   this._output._inputCount--;
-    // }
     this.output.removeWire(this, "input");
 
     this.control.removeItem(this);

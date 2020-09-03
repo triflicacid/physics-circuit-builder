@@ -876,6 +876,7 @@ export class Component extends CircuitItem {
    * @return {Component} this
    */
   public remove(): Component {
+    // Remove wires
     for (let input of this._inputs) input.remove();
     for (let output of this._outputs) output.remove();
 

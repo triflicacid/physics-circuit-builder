@@ -452,3 +452,43 @@ export function createDeleteButton(title: string | null, onClickHandler?: (e: Ev
   delbtn.innerHTML = '&times;';
   return delbtn;
 }
+
+/**
+ * Create an apple-style slider
+ */
+export function createAppleSlider(id: string, eventHandler?: (e: Event, checked: boolean) => void): HTMLSpanElement {
+  if (document.getElementById(id) != null) {
+    throw new TypeError(`createAppleSlider: id must be unique; element with ID '${id}' already exists.`);
+  }
+
+  const span: HTMLSpanElement = document.createElement('span');
+  span.classList.add('appleSlider');
+
+  // Actual checkbox
+  const checkbox: HTMLInputElement = document.createElement('input');
+  span.appendChild(checkbox);
+  checkbox.setAttribute('type', 'checkbox');
+  checkbox.classList.add('toggle');
+  checkbox.setAttribute('id', id);
+  checkbox.addEventListener('change', (e: Event) => {
+    span.classList[checkbox.checked ? 'add' : 'remove']('isChecked');
+
+    if (eventHandler != undefined) {
+      eventHandler(e, checkbox.checked);
+    }
+  });
+
+  // Disguise label
+  const label: HTMLLabelElement = document.createElement('label');
+  span.appendChild(label);
+  label.setAttribute('id', 'control');
+  label.classList.add('control');
+  label.setAttribute('for', id);
+
+  // Slider animation thing
+  const div: HTMLDivElement = document.createElement('div');
+  span.appendChild(div);
+  div.classList.add('atContainer');
+
+  return span;
+}

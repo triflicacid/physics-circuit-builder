@@ -47,75 +47,60 @@
 
                 <!-- Options to control Page.control -->
                 <div class='mainnav menu-tab' tab-target='control'>
-                    <table>
-                        <tr>
-                            <th colspan='2'>Environment</th>
-                            <th>Extra Info</th>
-                            <th>View Mode</th>
-                            <th><abbr title="Wires are drawn when you click on components">Wire Creation</abbr></th>
-                            <th><abbr title="Change (some) circuit symbols to US style">US</abbr></th>
-                            <th><abbr title="Show bounding boxes of components">Debug</abbr></th>
-                            <!-- <th>FPS</th> -->
-                        </tr>
-                        <tr>
-                            <!-- Control Light -->
-                            <td>Light </td>
-                            <td>
-                                <input type='range' min='0' max='1000' id='control-light-range' />&nbsp;
-                                <abbr title='Lumens'><span id='control-light-text'></span>lm</abbr>
-                            </td>
+                    <div>
+                        <b>Light</b>
+                        <br><br>
+                        <span>
+                            <input type='range' min='0' max='1000' id='control-light-range' />&nbsp;
+                            <abbr title='Lumens'><span id='control-light-text'></span>lm</abbr>
+                        </span>
+                    </div>
 
-                            <!-- Show additional info -->
-                            <td rowspan="2" class="middle">
-                                <span class='appleSlider' data-id="control-showInfo"></span>
-                            </td>
+                    <div>
+                        <b>Temperature</b>
+                        <br><br>
+                        <span>
+                            <input type='range' id='control-temp-range' />&nbsp;
+                            <abbr title='Degrees Celcius'><span id='control-temp-text'></span>°C</abbr>
+                        </span>
+                    </div>
 
-                            <!-- View Mode -->
-                            <td class="middle">
-                                <select id="control-displayMode">
-                                    <option value="0" selected>Normal</option>
-                                    <option value="1">Light</option>
-                                    <option value="2">Heat</option>
-                                </select>
-                            </td>
+                    <!-- <div>
+                        <b>Pixels per Cm</b>
+                        <br><br>
+                        <span>
+                            <input type='range' min='0.001' max='2.5' step="0.001" id='control-pxm-range' />&nbsp;
+                            <span id='control-pxm-text'></span> px/cm
+                        </span>
+                    </div> -->
 
-                            <!-- Wire Creation -->
-                            <td rowspan="2" class="middle">
-                                <span class='appleSlider' data-id="control-wireCreation"></span>
-                            </td>
+                    <div>
+                        <b>Additional Info</b>
+                        <br><br>
+                        <span>
+                            <span class='appleSlider' data-id="control-showInfo"></span>
+                        </span>
+                    </div>
 
-                            <!-- American style -->
-                            <td rowspan="2" class="middle">
-                                <span class='appleSlider' data-id="control-US"></span>
-                            </td>
+                    <div>
+                        <b>Wire Creation</b>
+                        <br><br>
+                        <span>
+                            <span class='appleSlider' data-id="control-wireCreation"></span>
+                        </span>
+                    </div>
 
-                            <!-- Debug? -->
-                            <td rowspan="2" class="middle">
-                                <span class='appleSlider' data-id="control-debug"></span>
-                            </td>
+                    <!-- <div>
+                        <b>Debug</b>
+                        <br><br>
+                        <span>
+                            <span class='appleSlider' data-id="control-debug"></span>
+                        </span>
+                    </div> -->
 
-                            <!-- FPS range -->
-                            <!-- <td rowspan="2" class="middle">
-                                    <input type='range' min='1' max='60' id='control-fps-range' />&nbsp;
-                                    <span id='control-fps-text'></span> fps
-                                </td> -->
-                        </tr>
-                        <tr>
-                            <td>Temperature </td>
-                            <td>
-                                <input type='range' id='control-temp-range' />&nbsp;
-                                <abbr title='Degrees Celcius'><span id='control-temp-text'></span>°C</abbr>
-                            </td>
-                        </tr>
-                        <tr>
-                            <!-- PIXELS_PER_CM -->
-                            <td>Pixels per cm </td>
-                            <td>
-                                <input type='range' min='0.001' max='2.5' step="0.001" id='control-pxm-range' />&nbsp;
-                                <span id='control-pxm-text'></span> px/cm
-                            </td>
-                        </tr>
-                    </table>
+                    <div>
+                        <button id='control-advancedBtn'>Advanced</button>
+                    </div>
                 </div>
 
                 <!-- Insert component "buttons" -->

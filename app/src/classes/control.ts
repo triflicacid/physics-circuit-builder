@@ -7,12 +7,11 @@ import Page from 'page/index';
 import { ISaveData, IComponentData, IConnectionData, IAdditionalComponentData } from 'models/saveData';
 import Controls from 'page/controls';
 import File from 'page/file';
-import Tab from 'page/tab';
 import p5 from 'p5';
 import { ComponentError, NullError } from './errors';
 import PowerSource from './component/PowerSource';
 import Popup, { PopupMode } from './popup';
-import { Heater } from './component/all/index';
+import { Heater, WireContainer, MaterialContainer } from './component/all/index';
 
 /**
  * Wrapper for controlling a circuit
@@ -50,7 +49,7 @@ import { Heater } from './component/all/index';
  * @property _debug             Debug mode enabled? (use getter/setter)
  * @property _gridSnapping      Do grid snapping?
  * @property _bb                Bounding box of canvas
- * @property PIXELS_PER_CM      How many pixels in a cm?
+ * @property _pixelsPerCm       How many pixels in a cm?
  *
  * @method getData()            Get circuit data
  * @method load(data)           Load from JSON data
@@ -86,7 +85,6 @@ export class Control {
   public file: string | null = null; // File currently open
   public components: Component[] = []; // Array of all components
   public wires: Wire[] = []; // Array of all wires
-  public pixelsPerCm: number = 2.5; // Ratio of px:cm
   public mode: ControlMode = ControlMode.Normal; // Display mode of the canvss
   public showInfo: boolean = true; // Are the components showing extra info?
   public enableCreateWire: boolean = false; // Are we allowing the creation of wire?
@@ -108,6 +106,7 @@ export class Control {
   private _running: boolean = false; // Are we running the circuit?
   private _debug: boolean = false; // Debug mode?
   private _gridSnapping: boolean = false; // Is grid snapping enabled?
+  private _pixelsPerCm: number = 2.5; // Ratio of px:cm
 
   private _lightLevel: number = 0; // Light level of the environment
   private _lastLightLevel: number = -1; // Last _lightLevel value
@@ -120,6 +119,18 @@ export class Control {
   private _updateTempNext: boolean = false; // Call this.updateTemp() the next P5 frame?
 
   constructor() { }
+
+  public get pixelsPerCm(): number { return this._pixelsPerCm; }
+  public set pixelsPerCm(v: number) {
+    this._pixelsPerCm = v;
+    if (this.circuit != null) {
+      for (const component of this.circuit.components) {
+        if (component instanceof WireContainer || component instanceof MaterialContainer) {
+          component.update = true;
+        }
+      }
+    }
+  }
 
   public get p5(): p5 { return this._p5; }
   public get head(): PowerSource | null { return this._head; }
@@ -337,9 +348,10 @@ export class Control {
     this._width = w;
     this._height = h;
     this.circuit = new Circuit(this);
+    // this.addCircuit();
 
     const control: Control = this;
-    const sketch: ((ns: p5) => void) = (ns: p5): void => {
+    const sketch = (ns: p5): void => {
       ns.setup = function (): void {
         control._canvas = ns.createCanvas(w, h);
         control._canvas.parent(id).doubleClicked(function (): void {
@@ -1156,6 +1168,7 @@ export class Control {
     // Make sure e are not hovering or anything
     if (this._over === item) this._over = null;
     if (this._selected === item) this._selected = null;
+    if (this._head === item) this._head = null;
 
     if (Controls.componentShowingInfo === item) {
       Controls.analyse(null);
