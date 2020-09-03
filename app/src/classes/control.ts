@@ -608,9 +608,7 @@ export class Control {
           case "Delete": {
             // If over component...
             if (control._over instanceof Component) {
-              if (window.confirm(`Remove component '${control._over.toString()}' from the circuit?`)) {
-                control._over.remove();
-              }
+              Controls.clickDeleteComponent(control._over.id);
             }
 
             // If over wire...
@@ -619,8 +617,8 @@ export class Control {
               const handle: number[] | null = control._over.onHandle(ns.mouseX, ns.mouseY);
               if (handle != null && window.confirm(`Delete wire handle at (${Math.round(handle[0])}, ${Math.round(handle[1])}) ?`)) {
                 control._over.removeHandle(handle);
-              } else if (window.confirm(`Remove wire connecting ${control._over.input.toString()} and ${control._over.output.toString()} from the circuit?`)) {
-                control._over.remove();
+              } else {
+                Controls.clickDeleteWire(control._over);
               }
             }
 
