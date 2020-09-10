@@ -5,6 +5,7 @@ export interface ISaveData {
   pxcm: number; // px:cm ratio
   temp: number; // Temperature of environment
   light: number; // Light level of environment
+  lock: boolean; // Is circuit locked for editing
 
   components: IComponentData[]
 }

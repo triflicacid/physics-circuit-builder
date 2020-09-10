@@ -250,6 +250,15 @@
             "releases": [
                 [
                     ["21:30", "Merged indev to master branch"]
+                ],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [
+                    ["20:29", "'Lock' circuit - disallow edits and such (advanced options popup)"]
                 ]
             ]
         }

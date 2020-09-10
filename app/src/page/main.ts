@@ -5,7 +5,7 @@ import { NullError } from 'classes/errors';
 export default async function () {
   // console.log("%cRunning main code...", "color: lightblue; font-weight: bold;");
 
-  await File.load('container.json');
+  await File.load('twoWaySwitch.json');
 
   if (Page.control != null) {
     Page.control.isRunning = true;

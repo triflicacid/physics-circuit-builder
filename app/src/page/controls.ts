@@ -49,7 +49,7 @@ export class Controls {
 		table.appendChild<HTMLTableRowElement>((function () {
 			const row = document.createElement('tr');
 
-			const th = document.createElement('th');
+			let th: HTMLTableHeaderCellElement = document.createElement('th');
 			th.innerText = "Debug";
 			row.appendChild(th);
 
@@ -59,6 +59,22 @@ export class Controls {
 				const slider: HTMLSpanElement = utils.createAppleSlider('control-debug', (e: Event, checked: boolean) => {
 					if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'isDebug'");
 					Page.control.debug = checked;
+				});
+				dataCell.appendChild(slider);
+
+				return dataCell;
+			})());
+
+			th = document.createElement('th');
+			th.innerText = "Locked";
+			row.appendChild(th);
+
+			row.appendChild<HTMLTableDataCellElement>((function () {
+				const dataCell = document.createElement('td');
+
+				const slider: HTMLSpanElement = utils.createAppleSlider('control-locked', (e: Event, checked: boolean) => {
+					if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'isLocked'");
+					Page.control.locked = checked;
 				});
 				dataCell.appendChild(slider);
 
@@ -86,6 +102,11 @@ export class Controls {
 				range.setAttribute('value', '1');
 				range.addEventListener("input", (event: Event): void => {
 					if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'input' on 'pixelMetreRange'");
+					if (Page.control.locked) {
+						Controls.advancedControlsPopup.close();
+						Controls.lockedMessage("alter pixels per centimetre");
+						return;
+					}
 
 					Page.control.pixelsPerCm = +range.value;
 					pxPerCm.innerText = range.value + " px/cm";
@@ -184,6 +205,11 @@ export class Controls {
 
 		Controls.wireCreation.addEventListener("click", (event: Event): void => {
 			if (Page.control == null) return console.warn("Page.control is null... Cannot handle event 'click' on slider 'wireCreation'");
+			if (Page.control.locked && Controls.wireCreation.checked) {
+				Controls.lockedMessage("create new wires");
+				Controls.wireCreation.checked = false;
+				return;
+			}
 
 			const target = <HTMLInputElement>event.target;
 
@@ -396,13 +422,11 @@ export class Controls {
 		utils.eventOn(Controls.temperatureSlider, "input");
 
 		Controls.pixelMetreRange.value = Page.control.pixelsPerCm.toString();
-		Controls.pixelMetreText.innerText = Page.control.pixelsPerCm.toString();
+		Controls.pixelMetreText.innerText = Page.control.pixelsPerCm.toString() + " px/cm";
 
-		// Page.controls.fpsSlider.value = Page.control._fps;
-		// utils.eventOn(Page.controls.fpsSlider, "input");
-
-		if (Page.control.showInfo) Controls.showInfo.click();
-		if (Page.control.enableCreateWire) Controls.wireCreation.click();
+		// Toggle certain options
+		if (Page.control.showInfo != Controls.showInfo.checked) Controls.showInfo.click();
+		if (Page.control.enableCreateWire != Controls.wireCreation.checked && !Page.control.locked) Controls.wireCreation.click();
 	}
 
 	/**
@@ -410,6 +434,7 @@ export class Controls {
 	 * @param  {HTMLElement} a    Element clicked on (<img /> or <a />)
 	 */
 	public static clickInsertComponentBtn(a: HTMLElement): void {
+		if (Page.control == null) return console.warn("Page.control is null... Cannot call clickInsertComponentBtn");;
 		if (typeof Controls.insertingComponent === "string") return;
 
 		const component = a.dataset.component;
@@ -418,8 +443,19 @@ export class Controls {
 			throw new TypeError(`Cannot find dataset.component(^).`);
 		}
 
+		if (Page.control.locked) {
+			Controls.lockedMessage("insert component " + component);
+			return;
+		}
+
 		Controls.insertingComponent = component;
 		Controls.afterInsertInit();
+	}
+
+	static lockedMessage(action: string): Popup {
+		const popup: Popup = new Popup("Circuit is Locked", "Cannot " + action);
+		popup.mode(PopupMode.Warn).open();
+		return popup;
 	}
 
 	/**
@@ -536,6 +572,10 @@ export class Controls {
 	 */
 	public static clickDeleteComponent(id: number, reanalyse: boolean = true): void {
 		if (Page.control == null) return console.warn("Page.control is null... Cannot call clickDeleteComponent");
+		if (Page.control.locked) {
+			Controls.lockedMessage("delete component");
+			return;
+		}
 
 		if (id === void 0 && Controls.componentShowingInfo instanceof Component)
 			id = Controls.componentShowingInfo.id;
@@ -562,6 +602,11 @@ export class Controls {
 		if (Page.control == null) return console.warn("Page.control is null... Cannot call clickDeleteWire");
 		if (wire == null && Controls.componentShowingInfo instanceof Wire) wire = Controls.componentShowingInfo;
 
+		if (Page.control.locked) {
+			Controls.lockedMessage("delete wire");
+			return;
+		}
+
 		if (wire instanceof Wire) {
 			if (window.confirm(`Remove wire connecting ${wire.input.toString()} and ${wire.output.toString()} from the circuit?`)) {
 				wire.remove();
@@ -577,7 +622,12 @@ export class Controls {
 	 * Event handler for "analyse-c-configButton"
 	 */
 	private static _configButtonEventHandler(): void {
-		if (Controls.componentShowingInfo != null) {
+		if (Page.control != null && Controls.componentShowingInfo != null) {
+			if (Page.control.locked) {
+				Controls.lockedMessage("configure component");
+				return;
+			}
+
 			if (Controls.componentShowingInfo instanceof Component) {
 				Controls.componentShowingInfo.openConfigPopup();
 			}

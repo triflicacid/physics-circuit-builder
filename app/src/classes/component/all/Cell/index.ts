@@ -42,13 +42,17 @@ export class Cell extends PowerSource {
       const facingRight: boolean = this.direction === Direction.Right;
 
       // Line
+      let wireStart: number = -1;
+      let wireEnd: number = -1;
       let offset: number = 4;
       p.stroke(colour);
       p.strokeWeight(2);
       if (facingRight) {
         p.line(offset, this._h / 2, offset, -this._h / 2);
+        wireEnd = offset;
       } else {
         p.line(-offset, -this._h / 2, -offset, this._h / 2);
+        wireEnd = -offset;
       }
 
       // Rectangle
@@ -58,9 +62,17 @@ export class Cell extends PowerSource {
       p.fill(colour);
       if (facingRight) {
         p.rect(-6, 0, -offset, this._h / 2);
+        wireStart = -6 - offset / 2;
       } else {
         p.rect(6, 0, offset, this._h / 2);
+        wireStart = 6 + offset / 2;
       }
+
+      // Wires
+      p.stroke(colour);
+      p.strokeWeight(1.2);
+      p.line(wireStart, 0, this._w / 2, 0);
+      p.line(-this._w / 2, 0, wireEnd, 0);
 
       // Plus sign (next to line)
       if (running && isOn) {
@@ -96,34 +108,34 @@ export class Cell extends PowerSource {
     });
   }
 
-  /**
-   * Where should we connect the input to?
-   * @return {Number[]}  Coordinates [x, y]
-   */
-  public getInputCoords(): [number, number] {
-    // Only funny buisiness for Cell component
-    if (this.constructor.name === 'Cell') {
-      const len = this.direction === Direction.Right ? 9 : 5;
-      const move = utils.polToCart(this._angle, len);
-      return [this._x - move[0], this._y + move[1]];
-    } else {
-      return super.getInputCoords();
-    }
-  }
+  // /**
+  //  * Where should we connect the input to?
+  //  * @return {Number[]}  Coordinates [x, y]
+  //  */
+  // public getInputCoords(): [number, number] {
+  //   // Only funny buisiness for Cell component
+  //   if (this.constructor.name === 'Cell') {
+  //     const len = this.direction === Direction.Right ? 9 : 5;
+  //     const move = utils.polToCart(this._angle, len);
+  //     return [this._x - move[0], this._y + move[1]];
+  //   } else {
+  //     return super.getInputCoords();
+  //   }
+  // }
 
-  /**
-   * Where should we connect the output from?
-   * @return {Number[]}  Coordinates [x, y]
-   */
-  public getOutputCoords(): [number, number] {
-    // Only funny buisiness for Cell component
-    if (this.constructor.name === 'Cell') {
-      const move = utils.polToCart(this._angle, 6);
-      return [this._x + move[0], this._y + move[1]];
-    } else {
-      return super.getOutputCoords();
-    }
-  }
+  // /**
+  //  * Where should we connect the output from?
+  //  * @return {Number[]}  Coordinates [x, y]
+  //  */
+  // public getOutputCoords(): [number, number] {
+  //   // Only funny buisiness for Cell component
+  //   if (this.constructor.name === 'Cell') {
+  //     const move = utils.polToCart(this._angle, 6);
+  //     return [this._x + move[0], this._y + move[1]];
+  //   } else {
+  //     return super.getOutputCoords();
+  //   }
+  // }
 }
 
 export default Cell;

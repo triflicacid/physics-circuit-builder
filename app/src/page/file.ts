@@ -103,6 +103,9 @@ export class File {
         .mode(PopupMode.Warn)
         .open();
       return;
+    } else if (Page.control.locked) {
+      Controls.lockedMessage("save circuit");
+      return;
     }
 
     Tab.hide(Tab.file);
@@ -234,6 +237,10 @@ export class File {
    */
   public static delete(): void {
     if (Page.control == null) return console.warn("Cannot call delete(): nothing is open");
+    if (Page.control.locked) {
+      Controls.lockedMessage("delete circuit");
+      return;
+    }
 
     // If not a file, close...
     if (Page.control.file == null) {

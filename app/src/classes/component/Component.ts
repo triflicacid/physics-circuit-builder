@@ -78,6 +78,7 @@ var nextID: number = 0;
  * @method remove()             Remove the component
  * @method _updateConfigPopup() Update config popup
  * @method openConfigPopup()    Update and open the config popup
+ * @method clickConnectorNode() Are the provided coordinated on a connector node?
  * @method onClick(e)           Event for canvas, when user clicks on component
  * @method onMouseEnter()       Event for canvas, when mouse enters the component
  * @method onMouseLeave()       Event for canvas, when mouse leaves the component
@@ -252,6 +253,15 @@ export class Component extends CircuitItem {
         }
 
         fn(p, colour, this.control.isRunning); // Other rendering shenanigans
+
+        // Connector nodes
+        if (this.constructor.name != "TwoWaySwitch" && this.constructor.name != "Connector") {
+          const d: number = Component.NODE_DIAMETER;
+          p.fill(colour);
+          p.noStroke();
+          p.ellipse(-this._w / 2 - d / 2, 0, d, d);
+          p.ellipse(this._w / 2 + d / 2, 0, d, d);
+        }
       }
 
       if (this.debug) {
@@ -274,6 +284,7 @@ export class Component extends CircuitItem {
           p.text("#" + this._id, -this._w / 2, -this._h / 2);
         }
       }
+
     }
 
     p.pop();
@@ -938,6 +949,22 @@ export class Component extends CircuitItem {
     this.configPopup.open();
   }
 
+  public clickConnectorNode(x: number, y: number): boolean {
+    if (this.constructor.name == "Connector") return true;
+
+    const d: number = Component.NODE_DIAMETER;
+
+    // Left wire node
+    let centre: number[] = [this._x - this._w / 2, this._y];
+    if (x >= centre[0] - d && x <= centre[0] + d && y >= centre[1] + d && y <= centre[1] - d) return true;
+
+    // Right wire node
+    centre = [this._x + this._w / 2, this._y];
+    if (x >= centre[0] - d && x <= centre[0] + d && y >= centre[1] + d && y <= centre[1] - d) return true;
+
+    return this.control.enableCreateWire;
+  }
+
   /**
    * Canvas-triggered events (see control.ts)
    */
@@ -949,6 +976,7 @@ export class Component extends CircuitItem {
   public onScroll(event: WheelEvent): void { }
 
   public static SMALL_TEXT: number = 11.5; // Text size for volts etc...
+  public static readonly NODE_DIAMETER: number = 8;
   public static readonly DEFAULT_WIDTH: number = 50; // Default width of component
   public static readonly ZERO_RESISTANCE: number = 1e-10; // "0" resistance to stop things breaking
   public static readonly LOW_RESISTANCE: number = 0.001; // "Low" resistance for e.g. ammeter. Not actually zero, but so small it is considered irrelevant.

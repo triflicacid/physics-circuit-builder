@@ -45,8 +45,9 @@ import { Heater, WireContainer, MaterialContainer } from './component/all/index'
  * @property state              State of the Control
  * @property components         Array of all components
  * @property wires              Array of all wires
- * @property _running           Is this circuit running?
+ * @property running            Is this circuit running?
  * @property _debug             Debug mode enabled? (use getter/setter)
+ * @property locked             Is circuit locked for editing?
  * @property _gridSnapping      Do grid snapping?
  * @property _bb                Bounding box of canvas
  * @property _pixelsPerCm       How many pixels in a cm?
@@ -88,6 +89,7 @@ export class Control {
   public mode: ControlMode = ControlMode.Normal; // Display mode of the canvss
   public showInfo: boolean = true; // Are the components showing extra info?
   public enableCreateWire: boolean = false; // Are we allowing the creation of wire?
+  public locked: boolean = false;
 
   private _selected: CircuitItem | null = null; // Selected component on canvas
   private _over: CircuitItem | null = null; // Component that we are currently over
@@ -213,6 +215,7 @@ export class Control {
       pxcm: this.pixelsPerCm,
       temp: this._temperature,
       light: this._lightLevel,
+      lock: this.locked,
     };
 
     for (let component of this.components) {
@@ -242,6 +245,7 @@ export class Control {
       if (typeof data.temp === 'number' && !isNaN(data.temp)) this._temperature = data.temp;
       if (typeof data.light === 'number' && !isNaN(data.light)) this._lightLevel = data.light;
       if (typeof data.pxcm === 'number' && !isNaN(data.pxcm)) this.pixelsPerCm = data.pxcm;
+      if (typeof data.lock === 'boolean') this.locked = data.lock;
     }
 
     // __SETUP__ function
@@ -380,7 +384,38 @@ export class Control {
 
       // When mouse if pressed - is a component selected?
       ns.mousePressed = function (event: MouseEvent): void {
-        // if (!control._running) return;
+        if (Page.control == null) return;
+
+        function connectProcedure(from: Component | null, to: Component): void {
+          if (Page.control == null) return;
+
+          // Link components?
+          if (from instanceof Component && control._isCreatingWire) {
+            if (Page.control.locked) {
+              Controls.lockedMessage("connect components");
+              return;
+            }
+
+            if (control._isCreatingWire) {
+              try {
+                const data: IConnectionData = { path: control._wirePath };
+                from.connectTo(to, data);
+              } catch (e) {
+                Page.circuitError("Cannot Connect Components", e);
+                console.error("==== [CONNECTION ERROR] ====\n", e);
+              } finally {
+                control._isCreatingWire = false;
+                to.highlighted = false;
+                control._selected = null;
+                control._wirePath = [];
+              }
+            }
+          } else {
+            // If selected, start creating wire
+            control._isCreatingWire = true;
+            control._wirePath = [];
+          }
+        }
 
         main: {
           // Only do stuff if no popups are open
@@ -403,6 +438,16 @@ export class Control {
               }
             }
 
+            // Connect Node?
+            // if (control._selected instanceof Component) {
+            //   for (const component of control.components) {
+            //     if (component !== control._selected && component.clickConnectorNode(ns.mouseX, ns.mouseY)) {
+            //       connectProcedure(control._selected, component);
+            //       break;
+            //     }
+            //   }
+            // }
+
             // Else, check for selected component
             let lastSelected: CircuitItem | null = control._selected;
             control._selected = control.select(ns.mouseX, ns.mouseY);
@@ -411,26 +456,7 @@ export class Control {
             if (control._selected instanceof Component) {
               // Creating wire has different functionality event-wise to if disabled
               if (control.enableCreateWire) {
-                if (lastSelected instanceof Component && control._isCreatingWire) {
-                  if (control._isCreatingWire) {
-                    try {
-                      const data: IConnectionData = { path: control._wirePath };
-                      lastSelected.connectTo(control._selected, data);
-                    } catch (e) {
-                      Page.circuitError("Cannot Connect Components", e);
-                      console.error("==== [CONNECTION ERROR] ====\n", e);
-                    } finally {
-                      control._isCreatingWire = false;
-                      control._selected.highlighted = false;
-                      control._selected = null;
-                      control._wirePath = [];
-                    }
-                  }
-                } else {
-                  // If selected, start creating wire
-                  control._isCreatingWire = true;
-                  control._wirePath = [];
-                }
+                connectProcedure(<Component>lastSelected, control._selected);
               }
             } else {
               // Clear everything
@@ -454,6 +480,11 @@ export class Control {
 
             // If over wire, create node
             else if (control._over instanceof Wire) {
+              if (Page.control.locked) {
+                Controls.lockedMessage("add wire handle");
+                return;
+              }
+
               control._over.addHandle(ns.mouseX, ns.mouseY);
             }
 
@@ -507,11 +538,16 @@ export class Control {
       // When the mouse is dragged - is a component being dragged?
       ns.mouseDragged = function (): void {
         // Only do stuff if no popups are open
-        if (Page.openPopups.length !== 0) return;
+        if (Page.control == null || Page.openPopups.length !== 0) return;
 
         if (control._selected instanceof Component) {
           // If dragging, move component...
           if (control._isDragging) {
+            if (Page.control.locked) {
+              Controls.lockedMessage("drag component");
+              return;
+            }
+
             control._isCreatingWire = false;
 
             let x: number = ns.mouseX;
@@ -525,6 +561,11 @@ export class Control {
             control._selected.move(x, y);
           }
         } else if (control._selected instanceof Wire && control._dragPoint != null) {
+          if (Page.control.locked) {
+            Controls.lockedMessage("drag wire node");
+            return;
+          }
+
           // Dragging wire point
           const pad: number = Wire.HANDLE_RADIUS * 3;
           let x: number = utils.clamp(ns.mouseX, pad, ns.width - pad);
@@ -833,6 +874,16 @@ export class Control {
       }
       p.vertex(p.mouseX, p.mouseY);
       p.endShape();
+    }
+
+    // Visual "is locked?" indicator
+    {
+      const d = 7;
+      p.fill(255, 0, 0);
+      p.noStroke();
+      // p.ellipse(5 + d, 10 + d, d, d);
+      const padlock = this.locked ? "🔒" : "🔓";
+      p.text(padlock, 5 + d, 10 + d * 3);
     }
 
     // Show ambient light
